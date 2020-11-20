@@ -1,23 +1,25 @@
-import logo from './logo.svg';
+import React from 'react'
 import './App.css';
 
 function App() {
+
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <nav class="navbar navbar-light bg-primary ">
+        <span class="navbar-brand mb-0 h1 text-white">Blog-Site</span>
+      </nav>
+      <form>
+        <div className="card mt-5" style={{ maxWidth: "500px", margin: "0 auto" }}>
+          <h1 className="card-header">Blog</h1>
+          <div className="card-body"></div>
+          <p class="card-text">Share your Thoughts</p>
+          <textarea className=" form-control" rows="3" placeholder="Do Something Here..."></textarea>
+          <button type="submit" className="btn btn-primary w-25 m-3"><i class="fa fa-paper-plane" aria-hidden="true">  Post</i></button>
+        </div>
+      </form>
+
     </div>
   );
 }
