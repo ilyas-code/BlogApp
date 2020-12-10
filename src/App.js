@@ -1,30 +1,69 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './App.css';
+import BlogPlate from "./components/BlogPlate";
+import NavBar from "./components/NavBar"
 
 function App() {
   const [blogPost, setBlogPost] = useState(null)
-  const [postTime, setPostTime] = useState(null)
-  const time = new Date();
-  
+  const [apiData, setApiData] = useState({
+    _id: "",
+    userName: '',
+    BlogText: [
+      {id:0, Text: 'loading', date: "2020-12-08T10:57:43.578Z"},
+      { id:1,Text: 'loading', date: "2020-12-08T10:57:43.578Z"},
+      { id:2,Text: 'loading', date: "2020-12-08T10:57:43.578Z"}
+      
+    ]
+  })
+
+  useEffect(() => {
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
+
+    fetch("http://localhost:8000/getBlog/mohammed", requestOptions)
+      .then(response => response.json())
+      .then(result =>  setApiData(result))
+      .catch(error => console.log('error', error));
+
+
+  }, [])
+
+  // const time = new Date();
+  // const array = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  console.log(apiData.BlogText);
   //function for setting the blog text in blog hook
   function changeHandler(e) {
+
     const value = e.target.value;
-    setBlogPost(value);
+    setBlogPost({
+      userName: "mohammed",
+      BlogText: value
+    });
     console.log(blogPost);
+
   }
-  
+
   // function for submitting the data to the database
   function submitHandle(e) {
-    e.preventDefault();
-    setPostTime(time.toDateString());
-    console.log(postTime);
+
   }
+
+  const blogText = apiData.BlogText
+  const blogArray = blogText.map((ele) => {
+    return <BlogPlate key ={ele.id} time={ele.date} txt={ele.Text} />
+  })
+
+  // const blogArray = array.map((ele) => {
+  //   return <BlogPlate key={ele} time={time} txt={ele} />
+  // })
 
   return (
     <div className="App">
-      <nav className="navbar navbar-light bg-primary ">
-        <span className="navbar-brand mb-0 h1 text-white">Blog-Site</span>
-      </nav>
+
+      <NavBar />
+
       <form>
         <div className="card mt-5" style={{ maxWidth: "500px", margin: "0 auto" }}>
           <h1 className="card-header">Blog</h1>
@@ -38,13 +77,12 @@ function App() {
 
         </div>
       </form>
-      {/* blog post card */}
-      <div className="card mt-5" style={{ maxWidth: "500px", margin: "0 auto" }}>
-        <div className="bg-light border-bottom">
-          <p className="float-left m-1">{time.toDateString()}</p>
-        </div>
-        <p className="card-text">hi</p>
+
+      <div className="flex-column">
+        {blogArray}
       </div>
+
+
     </div>
   );
 }
