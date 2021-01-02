@@ -6,14 +6,18 @@
   color: rgba(255, 23, 23);
   
 }
-
+/* Post button icon styling */
 #Post-ico p {
   display: inline;
   padding:0;
   margin-left: 8px;
 }
 
-#send-ico{
-  height:30px;
-  color: #fff;
+/* spinner styling for loading screen */
+#spinner{
+  text-align: center;
+  color: rgb(15, 98, 207);
+  position: absolute;
+  top:600px;
+
 }

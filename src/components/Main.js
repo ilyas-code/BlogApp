@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import BlogPlate from "./BlogPlate";
+import NavBar from "./NavBar";
 
 function Main() {
     // Setting Blog data for posting to server
@@ -9,23 +10,12 @@ function Main() {
     });
 
     // Setting the Api data fetchecd from the server 
-    const [apiData, setApiData] = useState({
-        _id: "",
-        userName: "",
-        BlogText: [
-            { id: 0, Text: "loading", date: 0 },
-
-        ]
-    });
-
+    const [apiData, setApiData] = useState(null);
 
     // Refreshing the component after calling Blog data from the Api
     useEffect(() => {
-
         GetData();
-
     }, []);
-
 
 
     // Function for fetching the blog data of the user from the server by GET request
@@ -39,12 +29,20 @@ function Main() {
             const response = await fetch("http://localhost:8000/getBlog/mohammed", requestOptions)
             const result = await response.json();
             setApiData(result);
-            console.log(result);
+            // console.log(result);
         }
         catch (error) {
             console.log(error);
-        }
+            // Setting some initial value to prevent forever loading
+            setApiData({
+                _id: "",
+                userName: "",
+                BlogText: [
+                    { id: 0, Text: "Connection Timed out please load again ", date: 0 },
 
+                ]
+            });
+        }
     }
 
     //function for setting the blog text in blog hook
@@ -54,7 +52,7 @@ function Main() {
             userName: "mohammed",
             BlogText: value,
         });
-        console.log(blogPost);
+        // console.log(blogPost);
     }
 
     // function for submitting the data to the database
@@ -77,11 +75,9 @@ function Main() {
         } catch (error) {
             console.log("error occured", error);
         }
-
-
-
-
     }
+
+    // function for delete the blog by requesting to the server
     async function DeleteHandle(e, deleteQuery) {
         var data = JSON.stringify(deleteQuery);
 
@@ -106,25 +102,35 @@ function Main() {
     }
 
     // Sorting the data fetched from the server for maping on the component
-    const blogText = apiData.BlogText.sort(function (a, b) {
-        return new Date(b.date) - new Date(a.date);
-    });
+
 
     // Mapping the fetched data to the resuable component
-    const blogArray = blogText.map((ele) => {
-        return <BlogPlate
-            key={ele.date}
-            date={ele.date}
-            Text={ele.Text}
-            blogPost={blogPost}
-            GetData={GetData}
-            DeleteHandle={DeleteHandle}
-        />;
-    });
+    if (apiData !== null) {
+        const blogText = apiData.BlogText.sort(function (a, b) {
+            return new Date(b.date) - new Date(a.date);
+        });
+        var blogArray = blogText.map((ele) => {
+            return <BlogPlate
+                key={ele.date}
+                date={ele.date}
+                Text={ele.Text}
+                blogPost={blogPost}
+                GetData={GetData}
+                DeleteHandle={DeleteHandle}
+            />;
+        });
+    } else {
+        blogArray =
+            <div>
+                <div id="spinner" className="spinner-border " role="status">
+                </div>
+            </div>
+    }
 
 
     return (
         <div>
+            <NavBar />
             <form>
                 <div
                     className="card mt-5"
@@ -159,7 +165,10 @@ function Main() {
                 {blogArray}
             </div>
         </div>
+
     )
+
+
 }
 
 export default Main
