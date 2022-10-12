@@ -11,17 +11,18 @@ import {
 
 } from "react-router-dom";
 
+console.log(localStorage.getItem("userName"));
 const authvalue = {
-  username: "ex",
-  isAutheticated: false,
-  signin(params) {
-    authvalue.username = params;
-    authvalue.isAutheticated = true
+  username: localStorage.getItem("userName"),
+  isAutheticated: localStorage.getItem("isAuthenticated"),
+  signin() {
+    localStorage.setItem("isAuthenticated",1);
+    // authvalue.isAutheticated = true
     console.log("signin",authvalue.username);
   },
   signout() {
-    authvalue.username = null
-    authvalue.isAutheticated = false
+    localStorage.setItem("isAuthenticated",0);
+    // authvalue.isAutheticated = false
   }
 }
 
@@ -38,7 +39,7 @@ function App() {
               <Home />
             </Route>
 
-            <Route path="/main">
+            <Route path="/main/:username1">
               <Main />
             </Route>
 

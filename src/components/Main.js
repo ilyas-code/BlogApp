@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import BlogPlate from "./BlogPlate";
 import NavBar from "./NavBar";
+import { authUser } from "../App"
+import { useParams, Redirect } from "react-router-dom";
 
 function Main() {
+    const { username1 } = useParams();
+    const authValue = useContext(authUser);
+    
     // Setting Blog data for posting to server
     const [blogPost, setBlogPost] = useState({
-        userName: "mohammed",
-        BlogText: "ex",
+        userName:username1,
+        BlogText: null,
     });
 
     // Setting the Api data fetchecd from the server 
@@ -14,19 +19,47 @@ function Main() {
 
     // Refreshing the component after calling Blog data from the Api
     useEffect(() => {
-        GetData();
+        async function fetchData() {
+
+            var requestOptions = {
+                method: "GET",
+                redirect: "follow",
+            };
+            // fetching data of the user modammed
+            try {
+                const response = await fetch(`http://localhost:8000/getBlog/${username1}`, requestOptions)
+                const result = await response.json();
+                setApiData(result);
+                // console.log(result);
+            }
+            catch (error) {
+                console.log(error);
+                // Setting some initial value to prevent forever loading
+                setApiData({
+                    _id: "",
+                    userName: "",
+                    BlogText: [
+                        { id: 0, Text: "Connection Timed out please load again ", date: 0 },
+    
+                    ]
+                });
+            }
+        }
+        fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 
     // Function for fetching the blog data of the user from the server by GET request
     async function GetData() {
+
         var requestOptions = {
             method: "GET",
             redirect: "follow",
         };
         // fetching data of the user modammed
         try {
-            const response = await fetch("http://localhost:8000/getBlog/mohammed", requestOptions)
+            const response = await fetch(`http://localhost:8000/getBlog/${username1}`, requestOptions)
             const result = await response.json();
             setApiData(result);
             // console.log(result);
@@ -49,7 +82,7 @@ function Main() {
     function ChangeHandler(e) {
         const value = e.target.value;
         setBlogPost({
-            userName: "mohammed",
+            userName:username1,
             BlogText: value,
         });
         // console.log(blogPost);
@@ -128,7 +161,7 @@ function Main() {
     }
 
 
-    return (
+    return authValue.isAutheticated ? (
         <div>
             <NavBar />
             <form>
@@ -166,7 +199,7 @@ function Main() {
             </div>
         </div>
 
-    )
+    ):<Redirect to="/login"/>
 
 
 }
