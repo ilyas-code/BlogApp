@@ -73,6 +73,7 @@ function Login() {
 
                     <button type="submit" className="btn btn-primary" onClick={authHandler}>Login</button>
                 </form>
+                <p className="card-link mb-3">Signup</p>
             </div>
         </div>
     )

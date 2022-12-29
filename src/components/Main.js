@@ -57,7 +57,7 @@ function Main() {
             method: "GET",
             redirect: "follow",
         };
-        // fetching data of the user modammed
+        // fetching data of the user "mohammed"
         try {
             const response = await fetch(`http://localhost:8000/getBlog/${username1}`, requestOptions)
             const result = await response.json();

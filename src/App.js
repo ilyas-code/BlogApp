@@ -4,6 +4,7 @@ import Main from "./components/Main";
 import Home from "./components/Home"
 import Login from "./components/Login"
 import SignUp from "./components/SignUp"
+import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,14 +15,15 @@ import {
 console.log(localStorage.getItem("userName"));
 const authvalue = {
   username: localStorage.getItem("userName"),
-  isAutheticated: localStorage.getItem("isAuthenticated"),
+  // isAutheticated: localStorage.getItem("isAuthenticated"),
+  isAutheticated: 1,
   signin() {
     localStorage.setItem("isAuthenticated",1);
     // authvalue.isAutheticated = true
     console.log("signin",authvalue.username);
   },
   signout() {
-    localStorage.setItem("isAuthenticated",0);
+    localStorage.setItem("isAuthenticated",1);
     // authvalue.isAutheticated = false
   }
 }

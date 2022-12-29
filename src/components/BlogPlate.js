@@ -13,7 +13,7 @@ function BlogPlate(props) {
     }
 
     return (
-        <div className="card mt-5" style={{ maxWidth: "500px", margin: "0 auto" }}>
+        <div className="card mt-5" style={{ margin: "2rem"}}>
             <div className="bg-light border-bottom flex-row">
                 <p className="float-left m-1">{dateString.toDateString()}</p>
 
