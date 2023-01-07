@@ -3,13 +3,13 @@ import BlogPlate from "./BlogPlate";
 import NavBar from "./NavBar";
 import { authUser } from "../App"
 import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom"
+import { Navigate } from "react-router-dom"
 
 
 function Main() {
     const { username1 } = useParams();
     const authValue = useContext(authUser);
-    const navigate = useNavigate();
+   
     
     // Setting Blog data for posting to server
     const [blogPost, setBlogPost] = useState({
@@ -204,7 +204,7 @@ function Main() {
             </div>
         </div>
 
-    ):(navigate("/login"))
+    ):<Navigate to="/" replace={true} />
 
 
 }

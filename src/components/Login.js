@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 // import { useHistory } from "react-router-dom";
 import { authUser } from "../App";
-import { useNavigate ,Link} from "react-router-dom";
-import { Form, Button, Card, FloatingLabel } from "react-bootstrap";
+import { useNavigate, Link} from "react-router-dom";
+import { Form, Button, Card, FloatingLabel, Alert} from "react-bootstrap";
 import NavBarHome from "./NavBar-Home";
 
 function Login() {
@@ -10,7 +10,7 @@ function Login() {
   let navigate = useNavigate();
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
-
+  const [show,setShow] = useState({state:false, message:""})
   //function for setting password and user
   function changeHandler(e) {
     const type = e.target.type;
@@ -55,17 +55,20 @@ function Login() {
 
         navigate(`/main/${username}`);
       } else {
-        alert("user not found");
-     
+        setShow({state:true, message:"user not found"})
       }
     } catch (error) {
-      console.log(error);
-    
+      // console.log(error);
+      // alert("server - error")
+      setShow({state:true, message:"server error"})
+
     }
   }
 
+  const alertEle = <Alert show={show.state} variant = "danger" className="w-25 mx-auto"> {show.message}</Alert>
   return (
     <div>
+      
       {/* <nav className="navbar navbar-dark bg-primary">
                 <h1 className="navbar-brand">Blog-App</h1>
             </nav>
@@ -87,6 +90,8 @@ function Login() {
                 <p className="card-link mb-3">Signup</p>
             </div> */}
       <NavBarHome />
+      {/* alert element for error */}
+      {alertEle} 
       <Card
         style={{
           width: "18rem",
@@ -96,67 +101,70 @@ function Login() {
         }}
       >
         <Card.Header>
-            <h4>sign-in</h4>
+          <h4>sign-in</h4>
         </Card.Header>
         <Card.Body>
-        <Form noValidate onSubmit={authHandler}>
-        <Form.Group
+          <Form onSubmit={authHandler}>
+            <Form.Group
               className="mb-3 position-relative"
               id="exampleForm.ControlInput1"
             >
-              <FloatingLabel  label="Email or Username">
+              <FloatingLabel label="Email or Username">
                 <Form.Control
-                required
+                  required
                   type="text"
                   name="name"
                   id="name1"
-                  
                   onChange={changeHandler}
-                  
                   placeholder="Email or Username"
                 />
 
-                <Form.Control.Feedback type="invalid" tooltip>
-              
-                </Form.Control.Feedback>
+                <Form.Control.Feedback
+                  type="invalid"
+                  tooltip
+                ></Form.Control.Feedback>
               </FloatingLabel>
             </Form.Group>
-     
-        <Form.Group
+
+            <Form.Group
               className="mb-3 position-relative"
               id="exampleForm.ControlInput2"
             >
-              <FloatingLabel  label="password">
+              <FloatingLabel label="password">
                 <Form.Control
-                
+                  required
                   type="password"
                   name="password"
                   id="name"
-                  
                   onChange={changeHandler}
-                  
                   placeholder="password"
-                  required
+                  
                 />
 
-                <Form.Control.Feedback type="invalid" tooltip>
-              
-                </Form.Control.Feedback>
+                <Form.Control.Feedback
+                  type="invalid"
+                  tooltip
+                ></Form.Control.Feedback>
               </FloatingLabel>
             </Form.Group>
             <div className="vstack gap-3">
-            <Button variant="dark" type="submit" className="w-100">
-              Login
-            </Button>
-           
-            <Link to="/forgotPage">forget password?</Link>
+              <Button variant="dark" type="submit" className="w-100">
+                Login
+              </Button>
+
+              <Link to="/forgotPage">forget password?</Link>
             </div>
-            <hr/>
-            
-            </Form>
-            <Button variant="outline-secondary" className="w-100 mb-3" onClick={(e)=>{navigate("/signup")}}>
-              Sign-up
-            </Button>
+            <hr />
+          </Form>
+          <Button
+            variant="outline-secondary"
+            className="w-100 mb-3"
+            onClick={(e) => {
+              navigate("/signup");
+            }}
+          >
+            Sign-up
+          </Button>
         </Card.Body>
       </Card>
     </div>

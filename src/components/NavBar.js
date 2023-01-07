@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom"
 function NavBar() {
     const authValue = useContext(authUser);
     const navigate = useNavigate();
-    
+  
     function handleLogout(e) {
         e.preventDefault();
         sessionStorage.setItem("userName", null);
@@ -23,7 +23,8 @@ function NavBar() {
          authValue.signout();
         console.log("signed out");
         console.log(authValue);
-            navigate("/login");
+            navigate("/login",{replace:true});
+        
      
         
     }

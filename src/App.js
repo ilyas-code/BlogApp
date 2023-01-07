@@ -13,6 +13,8 @@ console.log(localStorage.getItem("isAuthenticated"));
 const authvalue = {
   username: sessionStorage.getItem("userName"),
   isAuthenticated: sessionStorage.getItem("isAuthenticated")||false,
+  // isAuthenticated:false,
+
   signin() {
     sessionStorage.setItem("isAuthenticated", true);
     this.isAuthenticated = true;

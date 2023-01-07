@@ -8,6 +8,7 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import InputGroup from "react-bootstrap/InputGroup";
 // import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { useNavigate } from "react-router-dom";
@@ -70,20 +71,23 @@ function NavBarHome() {
                    <Link className="nav-link" to='/about'>About</Link> 
                 </Nav>
 
-                <div className="d-flex gap-3 flex-column flex-lg-row  align-items-lg-baseline">
+                <div className="d-flex gap-3 flex-column flex-lg-row  align-items-lg-baseline ">
                   <Form className="d-flex">
+                    <InputGroup>
                     <Form.Control
                       type="search"
                       placeholder="Search"
-                      className="me-2"
+                    
                       aria-label="Search"
                     />
                     <Button variant="outline-secondary">Search</Button>
+                    </InputGroup>
                   </Form>
 
                   <Button name="signIn" variant="dark" onClick={handleRedirect} >
                     Sign-in
                   </Button>
+                  
                 </div>
                 
               </Offcanvas.Body>
