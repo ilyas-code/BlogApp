@@ -1,61 +1,72 @@
-import React, { useContext, useState } from 'react'
-import { useHistory } from "react-router-dom";
-import { authUser } from "../App"
+import React, { useContext, useState } from "react";
+// import { useHistory } from "react-router-dom";
+import { authUser } from "../App";
+import { useNavigate ,Link} from "react-router-dom";
+import { Form, Button, Card, FloatingLabel } from "react-bootstrap";
+import NavBarHome from "./NavBar-Home";
 
 function Login() {
-    const authValue = useContext(authUser);
-    let history = useHistory();
-    const [username, setUsername] = useState(null);
-    const [password, setPassword] = useState(null);
+  const authValue = useContext(authUser);
+  let navigate = useNavigate();
+  const [username, setUsername] = useState(null);
+  const [password, setPassword] = useState(null);
 
-    //function for setting password and user
-    function changeHandler(e) {
-        const type = e.target.type;
-        if (type === "text") {
-            setUsername(e.target.value);
-            // console.log(username);
-        } else {
-            setPassword(e.target.value);
-            // console.log(password);
-        }
+  //function for setting password and user
+  function changeHandler(e) {
+    const type = e.target.type;
+    if (type === "text") {
+      setUsername(e.target.value);
+      // console.log(username);
+    } else {
+      setPassword(e.target.value);
+      // console.log(password);
     }
+  }
 
-    // function for authorizing the user for logging in further
-    async function authHandler(e) {
-        e.preventDefault();
-        console.log("responded");
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
+  // function for authorizing the user for logging in further
+  async function authHandler(e) {
+    e.preventDefault();
+    console.log("responded");
+    // for test purposes
+    // authValue.signin();
 
-        var raw = JSON.stringify({ userName: username, password: password });
+    // navigate(`/main/${username}`)
 
-        var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'follow'
-        };
-        try {
-            const response = await fetch("http://localhost:8000/authUser/", requestOptions);
-            const result = await response.text();
-            if(result === "authorized"){
-                localStorage.setItem("userName",username);
-                authValue.signin();
-                
-                history.push(`/main/${username}`)
-            }else{
-                alert("user not found")
-            }
-        } catch (error) {
-            console.log(error);
-        }
-        
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
 
+    var raw = JSON.stringify({ userName: username, password: password });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+    try {
+      const response = await fetch(
+        "http://localhost:8000/authUser/",
+        requestOptions
+      );
+      const result = await response.text();
+      if (result === "authorized") {
+        localStorage.setItem("userName", username);
+        authValue.signin();
+
+        navigate(`/main/${username}`);
+      } else {
+        alert("user not found");
+     
+      }
+    } catch (error) {
+      console.log(error);
+    
     }
+  }
 
-    return (
-        <div>
-            <nav className="navbar navbar-dark bg-primary">
+  return (
+    <div>
+      {/* <nav className="navbar navbar-dark bg-primary">
                 <h1 className="navbar-brand">Blog-App</h1>
             </nav>
             <div className="card mt-5" style={{ width: "18rem", margin: "0 auto" }}>
@@ -74,9 +85,82 @@ function Login() {
                     <button type="submit" className="btn btn-primary" onClick={authHandler}>Login</button>
                 </form>
                 <p className="card-link mb-3">Signup</p>
+            </div> */}
+      <NavBarHome />
+      <Card
+        style={{
+          width: "18rem",
+          margin: "0 auto",
+          position: "relative",
+          top: "50px",
+        }}
+      >
+        <Card.Header>
+            <h4>sign-in</h4>
+        </Card.Header>
+        <Card.Body>
+        <Form noValidate onSubmit={authHandler}>
+        <Form.Group
+              className="mb-3 position-relative"
+              id="exampleForm.ControlInput1"
+            >
+              <FloatingLabel  label="Email or Username">
+                <Form.Control
+                required
+                  type="text"
+                  name="name"
+                  id="name1"
+                  
+                  onChange={changeHandler}
+                  
+                  placeholder="Email or Username"
+                />
+
+                <Form.Control.Feedback type="invalid" tooltip>
+              
+                </Form.Control.Feedback>
+              </FloatingLabel>
+            </Form.Group>
+     
+        <Form.Group
+              className="mb-3 position-relative"
+              id="exampleForm.ControlInput2"
+            >
+              <FloatingLabel  label="password">
+                <Form.Control
+                
+                  type="password"
+                  name="password"
+                  id="name"
+                  
+                  onChange={changeHandler}
+                  
+                  placeholder="password"
+                  required
+                />
+
+                <Form.Control.Feedback type="invalid" tooltip>
+              
+                </Form.Control.Feedback>
+              </FloatingLabel>
+            </Form.Group>
+            <div className="vstack gap-3">
+            <Button variant="dark" type="submit" className="w-100">
+              Login
+            </Button>
+           
+            <Link to="/forgotPage">forget password?</Link>
             </div>
-        </div>
-    )
+            <hr/>
+            
+            </Form>
+            <Button variant="outline-secondary" className="w-100 mb-3" onClick={(e)=>{navigate("/signup")}}>
+              Sign-up
+            </Button>
+        </Card.Body>
+      </Card>
+    </div>
+  );
 }
 
-export default Login
+export default Login;

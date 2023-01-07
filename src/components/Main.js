@@ -2,11 +2,14 @@ import React, { useContext, useState, useEffect } from "react";
 import BlogPlate from "./BlogPlate";
 import NavBar from "./NavBar";
 import { authUser } from "../App"
-import { useParams, Redirect } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom"
+
 
 function Main() {
     const { username1 } = useParams();
     const authValue = useContext(authUser);
+    const navigate = useNavigate();
     
     // Setting Blog data for posting to server
     const [blogPost, setBlogPost] = useState({
@@ -19,6 +22,8 @@ function Main() {
 
     // Refreshing the component after calling Blog data from the Api
     useEffect(() => {
+
+        
         async function fetchData() {
 
             var requestOptions = {
@@ -160,8 +165,8 @@ function Main() {
             </div>
     }
 
-
-    return authValue.isAutheticated ? (
+        
+    return  authValue.isAuthenticated? (
         <div>
             <NavBar />
             <form>
@@ -199,7 +204,7 @@ function Main() {
             </div>
         </div>
 
-    ):<Redirect to="/login"/>
+    ):(navigate("/login"))
 
 
 }

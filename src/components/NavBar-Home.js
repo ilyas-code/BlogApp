@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
-import { authUser } from "../App";
-import { useHistory } from "react-router-dom";
+import React from "react";
+// import { authUser } from "../App";
+// import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import Button from "react-bootstrap/Button";
@@ -8,10 +8,11 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
+// import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
+import { useNavigate } from "react-router-dom";
 
-function NavBar_Home() {
+function NavBarHome() {
   // const authValue = useContext(authUser);
   // let history = useHistory();
   // function handleLogout(e) {
@@ -21,7 +22,13 @@ function NavBar_Home() {
   //     console.log("signed out");
   //     history.push("/");
   // }
-
+  const navigate = useNavigate();
+  function handleRedirect(e) {
+    e.preventDefault();
+    if (e.target.name === "signIn") {
+      navigate("/login");
+    }
+  }
 
   return (
     // <div>
@@ -41,8 +48,8 @@ function NavBar_Home() {
     // </div>
 
     <>
-      {["lg"].map((expand) => (
-        <Navbar key={expand} bg="light" expand={expand} className="mb-3">
+      {["md"].map((expand) => (
+        <Navbar key={expand} bg="light" expand={expand} className="mb-3 ">
           <Container fluid>
             <Navbar.Brand>Bloogie</Navbar.Brand>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
@@ -53,17 +60,17 @@ function NavBar_Home() {
             >
               <Offcanvas.Header closeButton>
                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                  Offcanvas
+                  Bloogie
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Nav.Link>Home</Nav.Link>
-                  <Nav.Link>About</Nav.Link>
                   
+                   <Link className="nav-link" to='/'>Home</Link> 
+                   <Link className="nav-link" to='/about'>About</Link> 
                 </Nav>
 
-                <div className="d-flex gap-3 flex-sm-column flex-lg-row  align-items-lg-baseline">
+                <div className="d-flex gap-3 flex-column flex-lg-row  align-items-lg-baseline">
                   <Form className="d-flex">
                     <Form.Control
                       type="search"
@@ -71,12 +78,14 @@ function NavBar_Home() {
                       className="me-2"
                       aria-label="Search"
                     />
-                    <Button variant="outline-success">Search</Button>
+                    <Button variant="outline-secondary">Search</Button>
                   </Form>
-                 <Link to="/login">
-                    <Button variant="secondary" >Sign-in</Button>
-                </Link>
+
+                  <Button name="signIn" variant="dark" onClick={handleRedirect} >
+                    Sign-in
+                  </Button>
                 </div>
+                
               </Offcanvas.Body>
             </Navbar.Offcanvas>
           </Container>
@@ -86,4 +95,4 @@ function NavBar_Home() {
   );
 }
 
-export default NavBar_Home;
+export default NavBarHome;

@@ -1,25 +1,31 @@
 import React,{useContext} from 'react'
 import { authUser } from "../App"
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom"
 
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Offcanvas from 'react-bootstrap/Offcanvas';
+// import Button from 'react-bootstrap/Button';
+// import Container from 'react-bootstrap/Container';
+// import Form from 'react-bootstrap/Form';
+// import Nav from 'react-bootstrap/Nav';
+// import Navbar from 'react-bootstrap/Navbar';
+// import NavDropdown from 'react-bootstrap/NavDropdown';
+// import Offcanvas from 'react-bootstrap/Offcanvas';
 
 
 function NavBar() {
     const authValue = useContext(authUser);
-    let history = useHistory();
+    const navigate = useNavigate();
+    
     function handleLogout(e) {
         e.preventDefault();
-        localStorage.setItem("userName", null);
-        authValue.signout();
+        sessionStorage.setItem("userName", null);
+        sessionStorage.setItem("isAuthenticated", false);
+         authValue.signout();
         console.log("signed out");
-        history.push("/");
+        console.log(authValue);
+            navigate("/login");
+     
+        
     }
     return (
         <div>
