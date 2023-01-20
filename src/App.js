@@ -7,13 +7,13 @@ import SignUp from "./components/SignUp";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
+import BlogPage from "./components/BlogPage";
 
-console.log(localStorage.getItem("userName"));
-console.log(localStorage.getItem("isAuthenticated"));
+
 const authvalue = {
   username: sessionStorage.getItem("userName"),
-  isAuthenticated: sessionStorage.getItem("isAuthenticated")||false,
-  // isAuthenticated:false,
+  // isAuthenticated: sessionStorage.getItem("isAuthenticated")||false,
+  isAuthenticated:false,
 
   signin() {
     sessionStorage.setItem("isAuthenticated", true);
@@ -36,6 +36,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/BlogPage/:uid" element={<BlogPage />} />
             <Route path="/main/:username1" element={<Main />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
