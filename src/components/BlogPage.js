@@ -7,7 +7,7 @@ function BlogPage() {
   const params = useParams();
   console.log(params);
   const [apiData, setApiData] = useState({ content: "none" });
-  var {id2,content2} = apiData
+  var {_id,content} = apiData
   useEffect(() => {
     async function fetchData() {
       var requestOptions = {
@@ -43,7 +43,7 @@ function BlogPage() {
     <React.Fragment>
       <NavBarHome />
       <Card className="mx-auto w-75 text-left">
-        <Card.Text>{content2}</Card.Text>
+        <Card.Text>{content}</Card.Text>
       </Card>
     </React.Fragment>
   );

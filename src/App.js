@@ -13,7 +13,7 @@ import BlogPage from "./components/BlogPage";
 const authvalue = {
   username: sessionStorage.getItem("userName"),
   // isAuthenticated: sessionStorage.getItem("isAuthenticated")||false,
-  isAuthenticated:false,
+  isAuthenticated:true,
 
   signin() {
     sessionStorage.setItem("isAuthenticated", true);

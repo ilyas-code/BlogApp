@@ -21,7 +21,8 @@ function Main() {
   const handleSave = useCallback(async () => {
     const savedData = await editorCore.current.save();
     console.log(savedData);
-    
+    const data ={userName:username1,BlogText:savedData};
+    setBlogPost(data);
   }, []);
 
   
@@ -159,29 +160,29 @@ function Main() {
   // Sorting the data fetched from the server for maping on the component
 
   // Mapping the fetched data to the resuable component
-  if (apiData !== null) {
-    const blogText = apiData.BlogText.sort(function(a, b) {
-      return new Date(b.date) - new Date(a.date);
-    });
-    var blogArray = blogText.map((ele) => {
-      return (
-        <BlogPlateUser
-          key={ele.date}
-          date={ele.date}
-          Text={ele.Text}
-          blogPost={blogPost}
-          GetData={GetData}
-          DeleteHandle={DeleteHandle}
-        />
-      );
-    });
-  } else {
-    blogArray = (
-      <div>
-        <div id="spinner" className="spinner-border " role="status"></div>
-      </div>
-    );
-  }
+  // if (apiData !== null) {
+  //   const blogText = apiData.sort(function(a, b) {
+  //     return new Date(b.Date) - new Date(a.Date);
+  //   });
+  //   var blogArray = blogText.map((ele) => {
+  //     return (
+  //       <BlogPlateUser
+  //         key={ele.date}
+  //         date={ele.date}
+  //         Text={ele.Text}
+  //         blogPost={blogPost}
+  //         GetData={GetData}
+  //         DeleteHandle={DeleteHandle}
+  //       />
+  //     );
+  //   });
+  // } else {
+  //   blogArray = (
+  //     <div>
+  //       <div id="spinner" className="spinner-border " role="status"></div>
+  //     </div>
+  //   );
+  // }
 
  
 
@@ -190,7 +191,7 @@ function Main() {
       <NavBar />
       <Card className="text-left m-5 p-0">
         <Card.Header
-          className="p-1 text-center"
+          className="p-1 text-center text-black-50"
           style={{ backgroundColor: "white" }}
         >
           {" "}
@@ -198,7 +199,7 @@ function Main() {
         </Card.Header>
         <Card.Header>
           <ButtonGroup aria-label="Basic example" className="float-end">
-            <Button variant="success" onClick={handleSave}>Publish</Button>
+            <Button variant="success" onClick={()=>{handleSave();SubmitHandle();}}>Publish</Button>
             <Button variant="dark">Cancel</Button>
           </ButtonGroup>
         </Card.Header>
