@@ -43,7 +43,7 @@ function BlogPage() {
     <React.Fragment>
       <NavBarHome />
       <Card className="mx-auto w-75 text-left">
-        <Card.Text>{content}</Card.Text>
+        <Card.Text>{apiData.content[0]}</Card.Text>
       </Card>
     </React.Fragment>
   );
