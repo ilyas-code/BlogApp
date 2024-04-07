@@ -1,5 +1,5 @@
-import React from "react";
-// import { authUser } from "../App";
+import React,{useContext} from "react";
+import { authUser } from "../App";
 // import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 
@@ -11,10 +11,10 @@ import Navbar from "react-bootstrap/Navbar";
 import InputGroup from "react-bootstrap/InputGroup";
 // import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 function NavBarHome() {
-  // const authValue = useContext(authUser);
+  const authValue = useContext(authUser);
   // let history = useHistory();
   // function handleLogout(e) {
   //     e.preventDefault();
@@ -23,13 +23,15 @@ function NavBarHome() {
   //     console.log("signed out");
   //     history.push("/");
   // }
-  const navigate = useNavigate();
-  function handleRedirect(e) {
-    e.preventDefault();
-    if (e.target.name === "signIn") {
-      navigate("/login");
-    }
-  }
+  // const navigate = useNavigate();
+  // function handleRedirect(e) {
+  //   e.preventDefault();
+  //   if (e.target.name === "signIn") {
+  //     navigate("/login");
+  //   }
+  // }
+  
+  var signButn = authValue.isAuthenticated ? "SignOut":"SignIn";
 
   return (
     // <div>
@@ -53,43 +55,44 @@ function NavBarHome() {
         <Navbar key={expand} bg="light" expand={expand} className="mb-3 ">
           <Container fluid>
             <Navbar.Brand>BlogBox</Navbar.Brand>
-            <Navbar.Toggle  aria-controls={`offcanvasNavbar-expand-${expand}`} />
+            <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
             <Navbar.Offcanvas
               id={`offcanvasNavbar-expand-${expand}`}
               aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
               placement="end"
             >
               <Offcanvas.Header closeButton>
-                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}> 
+                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
                   BlogBox
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                  
-                   <Link  className="nav-link" to='/'>Home</Link> 
-                   <Link className="nav-link" to='/about'>About</Link> 
+                  <Link className="nav-link" to="/Home">
+                    Home
+                  </Link>
+                  <Link className="nav-link" to="/about">
+                    About
+                  </Link>
                 </Nav>
 
                 <div className="d-flex gap-3 flex-column flex-lg-row  align-items-lg-baseline ">
                   <Form className="d-flex">
                     <InputGroup>
-                    <Form.Control
-                      type="search"
-                      placeholder="Search"
-                    
-                      aria-label="Search"
-                    />
-                    <Button variant="outline-secondary">Search</Button>
+                      <Form.Control
+                        type="search"
+                        placeholder="Search"
+                        aria-label="Search"
+                      />
+                      <Button variant="outline-secondary">Search</Button>
                     </InputGroup>
                   </Form>
 
-                  <Button name="signIn" variant="dark" onClick={handleRedirect} >
-                    Sign-in
-                  </Button>
-                  
+                  {/* <Link name="signIn" class="btn btn-primary" variant="dark" onClick={handleRedirect} > */}
+                  <Link className="btn btn-outline-dark" to={"login"}>
+                    {signButn}
+                  </Link>
                 </div>
-                
               </Offcanvas.Body>
             </Navbar.Offcanvas>
           </Container>

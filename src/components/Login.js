@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { authUser } from "../App";
 import { useNavigate, Link} from "react-router-dom";
 import { Form, Button, Card, FloatingLabel, Alert} from "react-bootstrap";
-import NavBarHome from "./NavBar-Home";
+// import NavBarHome from "./NavBar-Home";
 
 function Login() {
   const authValue = useContext(authUser);
@@ -89,7 +89,7 @@ function Login() {
                 </form>
                 <p className="card-link mb-3">Signup</p>
             </div> */}
-      <NavBarHome />
+      {/* <NavBarHome /> */}
       {/* alert element for error */}
       {alertEle} 
       <Card

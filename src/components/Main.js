@@ -1,116 +1,65 @@
-import React, { useContext, useState, useEffect,useRef,useCallback } from "react";
-import BlogPlateUser from "./BlogPlateUser";
+import React, {
+  useContext,
+  // useState,
+  // useEffect,
+  useRef,
+  useCallback,
+} from "react";
+// import BlogPlateUser from "./BlogPlateUser";
 import NavBar from "./NavBar";
 import { authUser } from "../App";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 //React bootstrap
-import { Card, Button, ButtonGroup} from "react-bootstrap";
+import { Card, Button, ButtonGroup } from "react-bootstrap";
 import EditorPage from "./EditorPage";
 
 function Main() {
-  const { username1 } = useParams();
+  // const { username1 } = useParams();
   const authValue = useContext(authUser);
-  const editorCore = useRef(null); 
+  const editorCore = useRef(null);
+  const date = new Date();
+  // const [blogPost, setBlogPost] = useState({
 
+  //   likes: ["ilyas"],
+  //   reports: [""],
+  //   UserName: "mohammed",
+  //   Date: date,
+  //   summary: "hi everyone read in",
+  //   title: "good title",
+  //   coverImg:
+  //     "https://images.unsplash.com/photo-1563417994954-2736db3bf2c9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+  //   content: 0,
+  // });
   // functions for saving the editor data to server
   const handleInitialize = useCallback((instance) => {
     editorCore.current = instance;
   }, []);
-
+  
+//  function handleSave as evoke from the "PUBLISH" button saves editor js data and post's data to the server 
   const handleSave = useCallback(async () => {
     const savedData = await editorCore.current.save();
     console.log(savedData);
-    const data ={userName:username1,BlogText:savedData};
-    setBlogPost(data);
-  }, []);
-
-  
-  // Setting Blog data for posting to server
-  const [blogPost, setBlogPost] = useState({
-    userName: username1,
-    BlogText: null,
-  });
-
-  // Setting the Api data fetchecd from the server
-  const [apiData, setApiData] = useState(null);
-
-  // Refreshing the component after calling Blog data from the Api
-  useEffect(() => {
-    async function fetchData() {
-      var requestOptions = {
-        method: "GET",
-        redirect: "follow",
-      };
-      // fetching data of the user modammed
-      try {
-        const response = await fetch(
-          `http://localhost:8000/getBlog/${username1}`,
-          requestOptions
-        );
-        const result = await response.json();
-        setApiData(result);
-        // console.log(result);
-      } catch (error) {
-        console.log(error);
-        // Setting some initial value to prevent forever loading
-        setApiData({
-          _id: "",
-          userName: "",
-          BlogText: [
-            { id: 0, Text: "Connection Timed out please load again ", date: 0 },
-          ],
-        });
-      }
+    // const data = { userName: username1, BlogText: savedData };
+    const data = {
+      likes: [""],
+      reports: [""],
+      UserName: "mohammed",
+      Date: date,
+      summary: "hi everyone read in",
+      title: "good title",
+      coverImg:
+        "https://images.unsplash.com/photo-1563417994954-2736db3bf2c9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+      content: savedData,
     }
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    // data.content = savedData;
+    // setBlogPost((d)=>{ d = data; return d;});
+    // console.log(data)
 
-  // Function for fetching the blog data of the user from the server by GET request
-  async function GetData() {
-    var requestOptions = {
-      method: "GET",
-      redirect: "follow",
-    };
-    // fetching data of the user "mohammed"
-    try {
-      const response = await fetch(
-        `http://localhost:8000/getBlog/${username1}`,
-        requestOptions
-      );
-      const result = await response.json();
-      setApiData(result);
-      // console.log(result);
-    } catch (error) {
-      console.log(error);
-      // Setting some initial value to prevent forever loading
-      setApiData({
-        _id: "",
-        userName: "",
-        BlogText: [
-          { id: 0, Text: "Connection Timed out please load again ", date: 0 },
-        ],
-      });
-    }
-  }
-
-  //function for setting the blog text in blog hook
-  function ChangeHandler(e) {
-    const value = e.target.value;
-    setBlogPost({
-      userName: username1,
-      BlogText: value,
-    });
-    // console.log(blogPost);
-  }
-
-  // function for submitting the data to the database
-  async function SubmitHandle(e) {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify(blogPost);
+    var raw = JSON.stringify(data);
 
     var requestOptions = {
       method: "POST",
@@ -124,38 +73,140 @@ function Main() {
         requestOptions
       );
       const result = await response.text();
-      console.log(result);
+      console.log("from submitHandle",result);
     } catch (error) {
       console.log("error occured", error);
     }
-  }
+    
+  },[]);
+
+  // Setting Blog data for posting to server
+  
+
+  // Setting the Api data fetchecd from the server
+  // const [apiData, setApiData] = useState(null);
+
+  // // Refreshing the component after calling Blog data from the Api
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     var requestOptions = {
+  //       method: "GET",
+  //       redirect: "follow",
+  //     };
+  //     // fetching data of the user modammed
+  //     try {
+  //       const response = await fetch(
+  //         `http://localhost:8000/getBlog/${username1}`,
+  //         requestOptions
+  //       );
+  //       const result = await response.json();
+  //       setApiData(result);
+  //       // console.log(result);
+  //     } catch (error) {
+  //       console.log(error);
+  //       // Setting some initial value to prevent forever loading
+  //       setApiData({
+  //         _id: "",
+  //         userName: "A",
+  //         BlogText: [
+  //           { id: 0, Text: "Connection Timed out please load again ", date: 0 },
+  //         ],
+  //       });
+  //     }
+  //   }
+  //   fetchData();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+
+  // Function for fetching the blog data of the user from the server by GET request
+  // async function GetData() {
+  //   var requestOptions = {
+  //     method: "GET",
+  //     redirect: "follow",
+  //   };
+  //   // fetching data of the user "mohammed"
+  //   try {
+  //     const response = await fetch(
+  //       `http://localhost:8000/getBlog/${username1}`,
+  //       requestOptions
+  //     );
+  //     const result = await response.json();
+  //     setApiData(result);
+  //     // console.log(result);
+  //   } catch (error) {
+  //     console.log(error);
+  //     // Setting some initial value to prevent forever loading
+  //     setApiData({
+  //       _id: "",
+  //       userName: "",
+  //       BlogText: [
+  //         { id: 0, Text: "Connection Timed out please load again ", date: 0 },
+  //       ],
+  //     });
+  //   }
+  // }
+
+  //function for setting the blog text in blog hook
+  // function ChangeHandler(e) {
+  //   const value = e.target.value;
+  //   setBlogPost({
+  //     userName: username1,
+  //     BlogText: value,
+  //   });
+  //   // console.log(blogPost);
+  // }
+
+  // function for submitting the data to the database
+  // async function SubmitHandle(e) {
+  //   var myHeaders = new Headers();
+  //   myHeaders.append("Content-Type", "application/json");
+
+  //   var raw = JSON.stringify(blogPost);
+
+  //   var requestOptions = {
+  //     method: "POST",
+  //     headers: myHeaders,
+  //     body: raw,
+  //     redirect: "follow",
+  //   };
+  //   try {
+  //     const response = await fetch(
+  //       "http://localhost:8000/postBlog",
+  //       requestOptions
+  //     );
+  //     const result = await response.text();
+  //     console.log("from submitHandle",result);
+  //   } catch (error) {
+  //     console.log("error occured", error);
+  //   }
+  // }
 
   // function for delete the blog by requesting to the server
-  async function DeleteHandle(e, deleteQuery) {
-    var data = JSON.stringify(deleteQuery);
+  // async function DeleteHandle(e, deleteQuery) {
+  //   var data = JSON.stringify(deleteQuery);
 
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+  //   var myHeaders = new Headers();
+  //   myHeaders.append("Content-Type", "application/json");
 
-    var requestOptions = {
-      method: "DELETE",
-      headers: myHeaders,
-      body: data,
-      redirect: "follow",
-    };
-    try {
-      const response = await fetch(
-        "http://localhost:8000/deleteBlog",
-        requestOptions
-      );
-      const result = await response.text();
-      console.log(result);
-    } catch (error) {
-      console.log(error);
-    }
+  //   var requestOptions = {
+  //     method: "DELETE",
+  //     headers: myHeaders,
+  //     body: data,
+  //     redirect: "follow",
+  //   };
+  //   try {
+  //     const response = await fetch(
+  //       "http://localhost:8000/deleteBlog",
+  //       requestOptions
+  //     );
+  //     const result = await response.text();
+  //     console.log(result);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
 
-    GetData();
-  }
+  //   GetData();
+  // }
 
   // Sorting the data fetched from the server for maping on the component
 
@@ -184,22 +235,29 @@ function Main() {
   //   );
   // }
 
- 
-
   return authValue.isAuthenticated ? (
     <div>
+     
       <NavBar />
       <Card className="text-left m-5 p-0">
         <Card.Header
           className="p-1 text-center text-black-50"
           style={{ backgroundColor: "white" }}
         >
-          {" "}
           <small>powered by editor js</small>
         </Card.Header>
         <Card.Header>
           <ButtonGroup aria-label="Basic example" className="float-end">
-            <Button variant="success" onClick={()=>{handleSave();SubmitHandle();}}>Publish</Button>
+            <Button
+              type="submit"
+              variant="success"
+              onClick={() => {
+                handleSave();
+                // SubmitHandle();
+              }}
+            >
+              Publish
+            </Button>
             <Button variant="dark">Cancel</Button>
           </ButtonGroup>
         </Card.Header>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import NavBarHome from "./NavBar-Home";
+import { Parser} from '@alkhipce/editorjs-react';
+// import NavBarHome from "./NavBar-Home";
 import { Card } from "react-bootstrap";
 import {useParams } from "react-router-dom";
 
@@ -7,7 +8,7 @@ function BlogPage() {
   const params = useParams();
   console.log(params);
   const [apiData, setApiData] = useState({ content: "none" });
-  var {_id,content} = apiData
+  // var {_id,content} = apiData
   useEffect(() => {
     async function fetchData() {
       var requestOptions = {
@@ -22,8 +23,8 @@ function BlogPage() {
         );
         const result = await response.json();
         console.log(result);
-        
-        setApiData(result);
+        // const result2 = JSON.stringify(result.content[0])
+        setApiData(result.content);
         // console.log(result);
       } catch (error) {
         console.log(error);
@@ -41,9 +42,15 @@ function BlogPage() {
 
   return (
     <React.Fragment>
-      <NavBarHome />
-      <Card className="mx-auto w-75 text-left">
-        <Card.Text>{apiData.content[0]}</Card.Text>
+      {/* <NavBarHome /> */}
+      <Card className="card-body text-start">
+        {/* <Card.Text>{apiData.content[1]}</Card.Text> */}
+       
+         <Parser data={apiData} /> 
+         
+        
+        
+        {console.log(apiData)}
       </Card>
     </React.Fragment>
   );
