@@ -42,8 +42,9 @@ function BlogPage() {
 
   return (
     <React.Fragment>
+      <div className="w-100 pt-5"></div>
       {/* <NavBarHome /> */}
-      <Card className="card-body text-start">
+      <Card className="card-body bg-body rounded shadow-sm text-start ">
         {/* <Card.Text>{apiData.content[1]}</Card.Text> */}
        
          <Parser data={apiData} /> 

@@ -3,7 +3,7 @@ import Table from '@editorjs/table'
 import List from '@editorjs/list'
 import Warning from '@editorjs/warning'
 import Code from '@editorjs/code'
-import LinkTool from '@editorjs/link'
+import linkTool from '@editorjs/link'
 import Image from '@editorjs/image'
 import Raw from '@editorjs/raw'
 import Header from '@editorjs/header'
@@ -21,7 +21,7 @@ export const EDITOR_JS_TOOLS = {
   list: List,
   warning: Warning,
   code: Code,
-  linkTool: LinkTool,
+  linkTool: linkTool,
   image: Image,
   raw: Raw,
   header: Header,

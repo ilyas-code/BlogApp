@@ -2,83 +2,86 @@ import React, {
   useContext,
   // useState,
   // useEffect,
-  useRef,
-  useCallback,
+  // useRef,
+  // useCallback,
 } from "react";
 // import BlogPlateUser from "./BlogPlateUser";
-import NavBar from "./NavBar";
+// import NavBar from "./NavBar";
+import MainNav from "./MainNav"
 import { authUser } from "../App";
 // import { useParams } from "react-router-dom";
-import { Navigate } from "react-router-dom";
+import { Navigate,Outlet} from "react-router-dom";
 //React bootstrap
-import { Card, Button, ButtonGroup } from "react-bootstrap";
-import EditorPage from "./EditorPage";
+// import { Card, Button, ButtonGroup } from "react-bootstrap";
+// import EditorPage from "./EditorPage";
 
 function Main() {
   // const { username1 } = useParams();
   const authValue = useContext(authUser);
-  const editorCore = useRef(null);
-  const date = new Date();
-  // const [blogPost, setBlogPost] = useState({
+//   const editorCore = useRef(null);
+//   const date = new Date();
+//   // const [blogPost, setBlogPost] = useState({
 
-  //   likes: ["ilyas"],
-  //   reports: [""],
-  //   UserName: "mohammed",
-  //   Date: date,
-  //   summary: "hi everyone read in",
-  //   title: "good title",
-  //   coverImg:
-  //     "https://images.unsplash.com/photo-1563417994954-2736db3bf2c9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-  //   content: 0,
-  // });
-  // functions for saving the editor data to server
-  const handleInitialize = useCallback((instance) => {
-    editorCore.current = instance;
-  }, []);
+//   //   likes: ["ilyas"],
+//   //   reports: [""],
+//   //   UserName: "mohammed",
+//   //   Date: date,
+//   //   summary: "hi everyone read in",
+//   //   title: "good title",
+//   //   coverImg:
+//   //     "https://images.unsplash.com/photo-1563417994954-2736db3bf2c9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+//   //   content: 0,
+//   // });
+//   // functions for saving the editor data to server
+//   const handleInitialize = useCallback((instance) => {
+//     editorCore.current = instance;
+//   }, []);
   
-//  function handleSave as evoke from the "PUBLISH" button saves editor js data and post's data to the server 
-  const handleSave = useCallback(async () => {
-    const savedData = await editorCore.current.save();
-    console.log(savedData);
-    // const data = { userName: username1, BlogText: savedData };
-    const data = {
-      likes: [""],
-      reports: [""],
-      UserName: "mohammed",
-      Date: date,
-      summary: "hi everyone read in",
-      title: "good title",
-      coverImg:
-        "https://images.unsplash.com/photo-1563417994954-2736db3bf2c9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-      content: savedData,
-    }
-    // data.content = savedData;
-    // setBlogPost((d)=>{ d = data; return d;});
-    // console.log(data)
+// //  function handleSave as evoke from the "PUBLISH" button saves editor js data and post's data to the server 
+//   const handleSave = useCallback(async () => {
+//     const savedData = await editorCore.current.save();
+//     console.log(savedData);
+//     // const data = { userName: username1, BlogText: savedData };
+//     const data = {
+//       likes: [""],
+//       reports: [""],
+//       UserName: "mohammed",
+//       Date: date,
+//       summary: "hi everyone read in",
+//       title: "good title",
+//       coverImg:
+//         "https://images.unsplash.com/photo-1563417994954-2736db3bf2c9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+//       content: savedData,
+//     }
+//     // data.content = savedData;
+//     // setBlogPost((d)=>{ d = data; return d;});
+//     // console.log(data)
 
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+//     var myHeaders = new Headers();
+//     myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify(data);
+//     var raw = JSON.stringify(data);
 
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
-    try {
-      const response = await fetch(
-        "http://localhost:8000/postBlog",
-        requestOptions
-      );
-      const result = await response.text();
-      console.log("from submitHandle",result);
-    } catch (error) {
-      console.log("error occured", error);
-    }
+//     var requestOptions = {
+//       method: "POST",
+//       headers: myHeaders,
+//       body: raw,
+//       redirect: "follow",
+//     };
+//     try {
+//       const response = await fetch(
+//         "http://localhost:8000/postBlog",
+//         requestOptions
+//       );
+//       const result = await response.text();
+//       console.log("from submitHandle",result);
+//       alert("posted")
+//     } catch (error) {
+//       console.log("error occured", error);
+//       alert("server error")
+//     }
     
-  },[]);
+//   },[]);
 
   // Setting Blog data for posting to server
   
@@ -236,75 +239,12 @@ function Main() {
   // }
 
   return authValue.isAuthenticated ? (
-    <div>
-     
-      <NavBar />
-      <Card className="text-left m-5 p-0">
-        <Card.Header
-          className="p-1 text-center text-black-50"
-          style={{ backgroundColor: "white" }}
-        >
-          <small>powered by editor js</small>
-        </Card.Header>
-        <Card.Header>
-          <ButtonGroup aria-label="Basic example" className="float-end">
-            <Button
-              type="submit"
-              variant="success"
-              onClick={() => {
-                handleSave();
-                // SubmitHandle();
-              }}
-            >
-              Publish
-            </Button>
-            <Button variant="dark">Cancel</Button>
-          </ButtonGroup>
-        </Card.Header>
-        <Card.Body>
-          <EditorPage handleInitialize={handleInitialize} />
-        </Card.Body>
-      </Card>
-
-      {/* <form>
-                <div
-                    className="card mt-5"
-                    style={{ maxWidth: "500px", margin: "0 auto" }}
-                >
-                    <h1 className="card-header">Blog</h1>
-                    <div className="card-body">
-                        <p className="card-text">Share your Thoughts</p>
-                        <textarea
-                            name="blogText"
-                            style={{ resize: "none" }}
-                            className="form-control"
-                            rows="3"
-                            placeholder="Do Something Here..."
-                            onChange={ChangeHandler}
-                        ></textarea>
-
-                        <button
-                            type="submit"
-                            className="btn btn-primary w-25 mt-3 float-left"
-                            onClick={SubmitHandle}
-                        >
-                            <i id="Post-ico" className="fa fa-paper-plane" aria-hidden="true">
-                                <p>Post</p>
-                            </i>
-                        </button>
-                    </div>
-                </div>
-            </form> */}
-
-      {/* <div className=" w-75 mx-auto text-left" style={{border:"1px solid #b5b5b5",borderRadius:"5px"}}>
-            <Row xs={1} lg={3} className="g-4">
-                
-                {blogArray}
-            </Row>
-            </div> */}
+    <div style={{height:"100vh"}}>
+      <MainNav/>
+      <Outlet/>
     </div>
   ) : (
-    <Navigate to="/" replace={true} />
+    <Navigate to="/Home" replace={true} />
   );
 }
 

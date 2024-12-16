@@ -49,8 +49,7 @@ function NavBar() {
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                   <Nav className="justify-content-end flex-grow-1 pe-3">
-                    
-                     <Link className="nav-link" to='/'>Home</Link> 
+                     <Link className="nav-link" to='/Home'>Home</Link> 
                      <Link className="nav-link" to='/about'>About</Link> 
                   </Nav>
   

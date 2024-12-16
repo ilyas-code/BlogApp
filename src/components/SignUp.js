@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-// import { Link } from "react-router-dom";
-import NavBarHome from "./NavBar-Home";
+// import { link } from "react-router-dom";
+// import NavBarHome from "./NavBar-Home";
 // import Button from 'react-bootstrap/Button';
 
 // import Form from 'react-bootstrap/Form';
@@ -146,7 +146,7 @@ const SignUp = () => {
 
   return (
     <React.Fragment>
-      <NavBarHome />
+      {/* <NavBarHome /> */}
       <Card
         style={{
           width: "18rem",

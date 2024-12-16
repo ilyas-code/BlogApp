@@ -1,7 +1,8 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-// import { Link } from "react-router-dom";
-import NavBarHome from "./NavBar-Home";
+// import { link } from "react-router-dom";
+
+import MainNav from "./MainNav"
 // import BlogPlatePublic from "./BlogPlatePublic";
 
 // import { Row, Spinner } from "react-bootstrap";
@@ -113,10 +114,13 @@ function Home() {
 //   }
   return (
     <React.Fragment>
-      <NavBarHome />
+      <div style={{height:"100vh"}}>
+     
+      <MainNav/>
       <div className="mx-auto w-75">
         <Outlet/>
         
+      </div>
       </div>
     </React.Fragment>
   );
@@ -125,12 +129,12 @@ function Home() {
 // {/* <nav classNameName="navbar navbar-dark bg-primary">
 //             <h1 classNameName="navbar-brand">Blog-App</h1>
 //             <form classNameName="form-inline">
-//                 <Link to='/signup'>
+//                 <link to='/signup'>
 //                     <button className="btn btn-outline-light mr-3  my-sm-0" type="submit">Sign-Up</button>
-//                 </Link>
-//                 <Link to="/login">
+//                 </link>
+//                 <link to="/login">
 //                     <button className="btn btn-outline-light  my-sm-0" type="submit">login</button>
-//                 </Link>
+//                 </link>
 //             </form>
 //         </nav> */}
 

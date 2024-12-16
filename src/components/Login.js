@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 // import { useHistory } from "react-router-dom";
 import { authUser } from "../App";
-import { useNavigate, Link} from "react-router-dom";
-import { Form, Button, Card, FloatingLabel, Alert} from "react-bootstrap";
+import { useNavigate, Link } from "react-router-dom";
+import { Form, Button, Card, FloatingLabel, Alert } from "react-bootstrap";
 // import NavBarHome from "./NavBar-Home";
 
 function Login() {
@@ -10,7 +10,7 @@ function Login() {
   let navigate = useNavigate();
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
-  const [show,setShow] = useState({state:false, message:""})
+  const [show, setShow] = useState({ state: false, message: "" });
   //function for setting password and user
   function changeHandler(e) {
     const type = e.target.type;
@@ -54,21 +54,25 @@ function Login() {
         authValue.signin();
 
         navigate(`/main/${username}`);
+       
       } else {
-        setShow({state:true, message:"user not found"})
+        setShow({ state: true, message: "user not found" });
       }
     } catch (error) {
       // console.log(error);
       // alert("server - error")
-      setShow({state:true, message:"server error"})
-
+      setShow({ state: true, message: "server error" });
     }
   }
 
-  const alertEle = <Alert show={show.state} variant = "danger" className="w-25 mx-auto"> {show.message}</Alert>
+  const alertEle = (
+    <Alert show={show.state} variant="danger" className="w-25 mx-auto">
+      {" "}
+      {show.message}
+    </Alert>
+  );
   return (
-    <div>
-      
+    <div className="form-signin w-100 m-auto" style={{height:"100vh",backgroundColor:"white"}}>
       {/* <nav className="navbar navbar-dark bg-primary">
                 <h1 className="navbar-brand">Blog-App</h1>
             </nav>
@@ -91,18 +95,18 @@ function Login() {
             </div> */}
       {/* <NavBarHome /> */}
       {/* alert element for error */}
-      {alertEle} 
+      {alertEle}
       <Card
         style={{
           width: "18rem",
           margin: "0 auto",
           position: "relative",
-          top: "50px",
+          top: "200px",
         }}
       >
-        <Card.Header>
-          <h4>sign-in</h4>
-        </Card.Header>
+      <h5 className="card-header"> Sign-in</h5>
+          
+        
         <Card.Body>
           <Form onSubmit={authHandler}>
             <Form.Group
@@ -138,7 +142,6 @@ function Login() {
                   id="name"
                   onChange={changeHandler}
                   placeholder="password"
-                  
                 />
 
                 <Form.Control.Feedback
