@@ -1,7 +1,8 @@
 .App {
   text-align: center;
-  background-color: rgb(255, 255, 255);
-  
+  background-color: #ffffff;
+  padding:0;
+  margin:auto;
 }
 
 #del-icon{

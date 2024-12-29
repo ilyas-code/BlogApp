@@ -1,13 +1,15 @@
 import React from "react";
-// import testImg from "./images/testImg.jpg";
+import testImg from "./images/testImg.jpg";
 // import { Card, Col, Stack } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
+
+
 function BlogPlatePublic(props) {
   const blogPost = props.blogPost;
-  const likes = blogPost.likes.length;
-  const dateString = new Date(blogPost.Date);
-  const UserName = props.UserName;
+  // const likes = blogPost.likes.length;
+  // const dateString = new Date(blogPost.Date);
+  // const UserName = props.UserName;
 
   const navigate = useNavigate();
   //delete Blog Query
@@ -84,16 +86,29 @@ function BlogPlatePublic(props) {
         </div>
       </div> */}
 
-      <div
+      {/* <div
         className="card text-bg-dark m-3 p-0"
         style={{ maxWidth: "20rem"}}
         onClick={handleCard}
-      >
-        <div className="card-header">{blogPost.title}</div>
+      > */}
+      {/* <div className="card-header">{blogPost.title}</div>
         <div className="card-body">
           <p className="card-text text-truncate">{blogPost.summary}</p>
+        </div> */}
+      <div className="card text-bg-light m-3 p-0" style={{ width: "18rem" }} onClick={handleCard}>
+        <img src={testImg} className="card-img-top" alt="..." />
+        <div className="card-body">
+          <h5 className="card-title">{blogPost.title}</h5>
+          <p className="card-text text-truncate">{blogPost.summary}</p>
         </div>
+        <ul className="list-group list-group-flush">
+          <li className="list-group-item">An item</li>
+          <li className="list-group-item">A second item</li>
+          <li className="list-group-item">A third item</li>
+        </ul>
+
       </div>
+      {/* </div> */}
 
       {/* <div className="card m-3" style={{Width: "100%"}}  onClick={handleCard}>
         <div className="row g-0">

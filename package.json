@@ -21,13 +21,15 @@
     "@editorjs/simple-image": "^1.5.1",
     "@editorjs/table": "^2.2.0",
     "@editorjs/warning": "^1.3.0",
+    "@mui/styled-engine-sc": "^6.3.0",
     "bootstrap": "^5.2.3",
-    "react": "^18.2.0",
+    "react": "^19.0.0",
     "react-bootstrap": "^2.7.0",
-    "react-dom": "^18.2.0",
+    "react-dom": "^19.0.0",
     "react-editor-js": "^2.1.0",
     "react-router-dom": "^6.6.1",
-    "react-scripts": "^2.1.3",
+    "react-scripts": "^5.0.1",
+    "styled-components": "^6.1.13",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
@@ -53,5 +55,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.18.6"
   }
 }

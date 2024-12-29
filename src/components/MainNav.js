@@ -18,7 +18,7 @@ function MainNav() {
 
   return authValue.isAuthenticated?(
     <nav
-      className="navbar navbar-expand-lg fixed-top navbar-dark bg-dark shadow"
+      className="navbar navbar-expand-lg fixed-top navbar-dark bg-dark shadow-sm"
       aria-label="Main navigation"
     >
       <div className="container-fluid">
@@ -105,7 +105,7 @@ function MainNav() {
     </nav>
   ):(
     <nav
-      className="navbar navbar-expand-lg fixed-top navbar-dark bg-dark shadow"
+      className="navbar navbar-expand-lg fixed-top navbar-dark bg-dark shadow-sm"
       aria-label="Main navigation"
     >
       <div className="container-fluid">

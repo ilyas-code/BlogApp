@@ -19,7 +19,7 @@ import React, {
     // const { username1 } = useParams();
     const authValue = useContext(authUser);
     const editorCore = useRef(null);
-    const date = new Date();
+    
     // const [blogPost, setBlogPost] = useState({
   
     //   likes: ["ilyas"],
@@ -41,6 +41,7 @@ import React, {
     const handleSave = useCallback(async () => {
       const savedData = await editorCore.current.save();
       console.log(savedData);
+      const date = new Date();
       // const data = { userName: username1, BlogText: savedData };
       const data = {
         likes: [""],
