@@ -102,7 +102,6 @@ function BlogPlatePublic(props) {
           <div  className=" p-1 hover:fill-current"><i class="bi bi-share"></i></div>
           <div  className=" p-1 hover:fill-current"><i class="bi bi-chat-left-dots"></i></div>
         </div>
-
       </div>
       {/* </div> */}
 
