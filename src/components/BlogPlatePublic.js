@@ -1,5 +1,5 @@
 import React from "react";
-import testImg from "./images/testImg.jpg";
+// import testImg from "./images/testImg.jpg";
 // import { Card, Col, Stack } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
@@ -95,17 +95,17 @@ function BlogPlatePublic(props) {
         <div className="card-body">
           <p className="card-text text-truncate">{blogPost.summary}</p>
         </div> */}
-      <div className="card text-bg-light m-3 p-0" style={{ width: "18rem" }} onClick={handleCard}>
-        <img src={testImg} className="card-img-top" alt="..." />
-        <div className="card-body">
-          <h5 className="card-title">{blogPost.title}</h5>
-          <p className="card-text text-truncate">{blogPost.summary}</p>
+      <div className="container rounded-xl shadow-md flex flex-col p-2 antialiased" style={{ width: "18rem" }} onClick={handleCard}>
+        <img src={blogPost.coverImg} className="p-1 block rounded-xl object-cover h-96 w-96 " alt="..." />
+        <div >
+          <div className=" p-1 text-3xl capitalize antialiased" >{blogPost.title}</div>
+          <div className=" text-base p-1 truncate">{blogPost.summary}</div>
         </div>
-        <ul className="list-group list-group-flush">
-          <li className="list-group-item">An item</li>
-          <li className="list-group-item">A second item</li>
-          <li className="list-group-item">A third item</li>
-        </ul>
+        <div className="flex  justify-center text-base divide-x">
+          <div  className="p-1 overflow-clip">An item</div>
+          <div  className="p-1 overflow-clip">A second item</div>
+          <div  className="p-1 overflow-clip">A third item</div>
+        </div>
 
       </div>
       {/* </div> */}

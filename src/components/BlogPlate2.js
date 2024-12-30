@@ -61,13 +61,13 @@ function BlogPlate2() {
             <small>Since 2020</small>
           </div>
         </div>
-        <div className="my-3 p-3 bg-body rounded shadow-sm text-start">
+        <div className="my-3 p-3 bg-body rounded shadow-sm text-start divide-y">
           {/* <Row xs={1} sm={1} md={2} lg={4} className="g-4">
       {blogArray}
     </Row> */}
 
-          <h6 className="border-bottom pb-2 mb-0">Recent updates</h6>
-          <div className="row">
+          <h6 className="p-2">Recent updates</h6>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 p-2">
            {loading ? <Spinner animation="border" /> : apiData.map((ele) => {
               return (
                 <BlogPlatePublic
