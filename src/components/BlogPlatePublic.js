@@ -95,18 +95,27 @@ function BlogPlatePublic(props) {
         <div className="card-body">
           <p className="card-text text-truncate">{blogPost.summary}</p>
         </div> */}
-      <div className="container rounded-xl shadow-md flex flex-col p-2 antialiased" style={{ width: "18rem" }} onClick={handleCard}>
-        <img src={blogPost.coverImg} className="p-1 block rounded-xl object-cover h-96 w-96 " alt="..." />
-        <div >
-          <div className=" p-1 text-3xl capitalize antialiased" >{blogPost.title}</div>
+      <div
+        className="container rounded-xl shadow-md flex flex-col p-2 antialiased"
+        style={{ width: "18rem" }}
+        onClick={handleCard}
+      >
+        <img
+          src={blogPost.coverImg}
+          className="p-1 block rounded-xl object-cover h-96 w-96 "
+          alt="..."
+        />
+        <div>
+          <div className=" p-1 text-3xl capitalize antialiased">
+            {blogPost.title}
+          </div>
           <div className=" text-base p-1 truncate">{blogPost.summary}</div>
         </div>
-        <div className="flex  justify-center text-base divide-x">
-          <div  className="p-1 overflow-clip">An item</div>
-          <div  className="p-1 overflow-clip">A second item</div>
-          <div  className="p-1 overflow-clip">A third item</div>
+        <div className="flex  justify-center items-center text-base divide-x">
+          <div className="p-1 overflow-clip">An item</div>
+          <div className="p-1 overflow-clip">A second item</div>
+          <div className="p-1 overflow-clip">A third item</div>
         </div>
-
       </div>
       {/* </div> */}
 
