@@ -2,7 +2,7 @@ import React from "react";
 // import testImg from "./images/testImg.jpg";
 // import { Card, Col, Stack } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-
+import { HeartIcon } from '@heroicons/react/24/solid'
 
 
 function BlogPlatePublic(props) {
@@ -91,17 +91,21 @@ function BlogPlatePublic(props) {
         <div className="card-body">
           <p className="card-text text-truncate">{blogPost.summary}</p>
         </div> */}
-      <div className="container rounded-xl shadow-md flex flex-col p-2 antialiased" style={{ width: "18rem" }} >
+      <div className="relative container rounded-xl shadow-md flex flex-col p-2 antialiase" style={{ width: "18rem" }} >
         <img src={blogPost.coverImg} className="p-1 block rounded-xl object-cover h-96 w-96 " alt="..." />
-        <div onClick={handleCard}>
-          <div className=" p-1 text-3xl capitalize antialiased" >{blogPost.title}</div>
-          <div className=" text-base p-1 truncate">{blogPost.summary}</div>
+        <div className="container p-0 h-32" onClick={handleCard}>
+          <div className=" p-1 text-2xl font-semibold capitalize antialiased" >{blogPost.title}</div>
+          <div className=" text-base p-1 line-clamp-3">{blogPost.summary}</div>
         </div>
-        <div className="flex  justify-between">
-          <div  className=" p-1 hover:fill-current"><i className="bi bi-heart"></i></div>
-          <div  className=" p-1 hover:fill-current"><i class="bi bi-share"></i></div>
-          <div  className=" p-1 hover:fill-current"><i class="bi bi-chat-left-dots"></i></div>
+        <div className="container p-0">
+          <div className="flex  justify-between">
+          <HeartIcon className="size-5 m-0 p-0" />
+          <div  className=" p-2 "><i className="bi bi-share"></i></div>
+          <div  className=" p-2 "><i className="bi bi-share"></i></div>
+          <div  className=" p-2 "><i className="bi bi-chat-left-dots"></i></div>
         </div>
+        </div>
+        
       </div>
       {/* </div> */}
 
@@ -113,7 +117,7 @@ function BlogPlatePublic(props) {
           <div className="col-md-11">
             <div className="card-body">
               <div className="card-title">
-               <h5>{blogPost.title}</h5>
+               <h5>{blogPost.title}</h5>              
               <small className="fw-normal text-end">
                {dateString.toDateString()}
                 </small> 
