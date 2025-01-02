@@ -1,117 +1,36 @@
-import React,{useContext} from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { authUser } from "../App";
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-                  
-const navigation = [
-  { name: 'Home', href: 'Home', current: false },
-  { name: 'Dashboard', href: `/main/${authUser.username}`, current: true },
-  { name: 'Projects', href: '#', current: false },
-  { name: 'Calendar', href: '#', current: false },
-]
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+} from "@headlessui/react";
+import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 function MainNav() {
-      const authValue=useContext(authUser)
-      
-      function handleLogout(e) {
-      localStorage.setItem("userName", null);
-      authValue.signout();
-      console.log("signed out");
-      
-    }; 
-
+  const authValue = useContext(authUser);
   
-  
+  //navigation links
+  const navigation = [
+    { name: "Home", href: "Home", current: false },
+    { name: "Dashboard", href: `/main/${authValue}`, current: true },
+    { name: "Projects", href: "#", current: false },
+    { name: "Calendar", href: "#", current: false },
+  ];
 
-  return authValue.isAuthenticated?(
-    // <nav
-    //   className="navbar navbar-expand-lg fixed-top navbar-dark bg-dark shadow-sm"
-    //   aria-label="Main navigation"
-    // >
-    //   <div className="container-fluid">
-    //     <Link className="navbar-brand" to="#">
-    //       BlogBox
-    //     </Link>
-    //     <button
-    //       className="navbar-toggler p-0 border-0"
-    //       type="button"
-    //       id="navbarSideCollapse"
-    //       aria-label="Toggle navigation"
-    //     >
-    //       <span className="navbar-toggler-icon"></span>
-    //     </button>
+  function handleLogout(e) {
+    localStorage.setItem("userName", null);
+    authValue.signout();
+    console.log("signed out");
+  }
 
-    //     <div
-    //       className="navbar-collapse offcanvas-collapse"
-    //       id="navbarsExampleDefault"
-    //     >
-    //       <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-    //          <li className="nav-item">
-    //           <Link className="nav-link" to="/HomeMain">
-    //           <i className="bi bi-house px-1"></i>Home
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link className="nav-link" to={`/main/${authValue}`}>
-    //           <i className="bi bi-speedometer2 px-1"></i>Dashboard
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link className="nav-link" to="#">
-    //           <i className="bi bi-bell px-1"></i> Notifications
-    //           </Link>
-    //         </li>
-           
-    //         <li className="nav-item dropdown">
-    //           <Link
-    //             className="nav-link dropdown-toggle"
-    //             to="#"
-    //             data-bs-toggle="dropdown"
-    //             aria-expanded="false"
-    //           >
-    //             <i className="bi bi-person px-1"></i>Profile
-    //           </Link>
-    //           <ul className="dropdown-menu">
-    //             <li>
-    //               <Link className="dropdown-item" to="#">
-    //                 Action
-    //               </Link>
-    //             </li>
-    //             <li>
-    //               <Link className="dropdown-item" to="#">
-    //                 Another action
-    //               </Link>
-    //             </li>
-    //             <li>
-    //               <Link className="dropdown-item" to="/Home" onClick={handleLogout} >
-    //                 Signout
-    //               </Link>
-    //             </li>
-    //           </ul>
-    //         </li>
-    //       </ul>
-    //       <form className="d-flex" role="search">
-    //         <div className="input-group">
-    //           <input
-    //             className="form-control text-bg-light"
-    //             type="search"
-    //             placeholder="Search"
-    //             aria-label="Search"
-    //           />
-    //           <button
-    //             className="btn btn-light"
-                
-    //             type="submit"
-    //           >
-    //             <i className="fa-solid fa-magnifying-glass"></i>
-    //           </button>
-    //         </div>
-    //       </form>
-    //     </div>
-    //   </div>
-    // </nav>
-    <Disclosure as="nav" className="bg-gray-800">
+  return authValue.isAuthenticated ? (
+    <Disclosure as="nav" className="bg-dark">
       <div className="mx-auto w-full px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -119,13 +38,19 @@ function MainNav() {
             <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
               <span className="absolute -inset-0.5" />
               <span className="sr-only">Open main menu</span>
-              <Bars3Icon aria-hidden="true" className="block size-6 group-data-[open]:hidden" />
-              <XMarkIcon aria-hidden="true" className="hidden size-6 group-data-[open]:block" />
+              <Bars3Icon
+                aria-hidden="true"
+                className="block size-6 group-data-[open]:hidden"
+              />
+              <XMarkIcon
+                aria-hidden="true"
+                className="hidden size-6 group-data-[open]:block"
+              />
             </DisclosureButton>
           </div>
           <div className="flex flex-1 items-center justify-centre sm:items-stretch sm:justify-start">
             <div className="flex shrink-0 items-center">
-             <div className="text-white font-semibold text-lg">BlogBox</div>
+              <div className="text-white font-semibold text-lg">BlogBox</div>
             </div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
@@ -133,9 +58,8 @@ function MainNav() {
                   <Link
                     key={item.name}
                     to={item.href}
-                    aria-current={item.current ? 'page' : undefined}
-                    className='text-gray-300 hover:bg-gray-700 hover:text-white hover:no-underline rounded-md px-3 py-2 text-sm font-medium no-underline'
-                    
+                    aria-current={item.current ? "page" : undefined}
+                    className="text-gray-300 hover:bg-gray-700 hover:text-white hover:no-underline rounded-md px-3 py-2 text-sm font-medium no-underline"
                   >
                     {item.name}
                   </Link>
@@ -173,7 +97,7 @@ function MainNav() {
                 <MenuItem>
                   <Link
                     to="#"
-                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none no-underline"
+                    className="block px-4 py-2 text-sm text-gray-700  data-[focus]:bg-gray-100 data-[focus]:outline-none no-underline"
                   >
                     Your Profile
                   </Link>
@@ -188,7 +112,7 @@ function MainNav() {
                 </MenuItem>
                 <MenuItem>
                   <Link
-                   to="Home"
+                    to="Home"
                     className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none no-underline"
                     onClick={handleLogout}
                   >
@@ -207,11 +131,8 @@ function MainNav() {
             <DisclosureButton
               key={item.name}
               as="a"
-             
-              aria-current={item.current ? 'page' : undefined}
-              className=
-                 'no-underline text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium'
-              
+              aria-current={item.current ? "page" : undefined}
+              className="no-underline text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
             >
               {item.name}
             </DisclosureButton>
@@ -219,7 +140,7 @@ function MainNav() {
         </div>
       </DisclosurePanel>
     </Disclosure>
-  ):(
+  ) : (
     <nav
       className="navbar navbar-expand-lg fixed-top navbar-dark bg-dark shadow-sm"
       aria-label="Main navigation"
@@ -242,13 +163,12 @@ function MainNav() {
           id="navbarsExampleDefault"
         >
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-             <li className="nav-item">
+            <li className="nav-item">
               <Link className="nav-link" to="/HomeMain">
-              <i className="bi bi-house px-1"></i>Home
+                <i className="bi bi-house px-1"></i>Home
               </Link>
             </li>
-            
-           
+
             <li className="nav-item dropdown">
               <Link
                 className="nav-link dropdown-toggle"
@@ -270,7 +190,7 @@ function MainNav() {
                   </Link>
                 </li>
                 <li>
-                  <Link className="dropdown-item" to="/login" >
+                  <Link className="dropdown-item" to="/login">
                     Signin
                   </Link>
                 </li>
@@ -285,11 +205,7 @@ function MainNav() {
                 placeholder="Search"
                 aria-label="Search"
               />
-              <button
-                className="btn btn-light"
-                
-                type="submit"
-              >
+              <button className="btn btn-light" type="submit">
                 <i className="fa-solid fa-magnifying-glass"></i>
               </button>
             </div>

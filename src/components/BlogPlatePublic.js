@@ -1,11 +1,15 @@
-import React from "react";
+import React,{useState} from "react";
 // import testImg from "./images/testImg.jpg";
 // import { Card, Col, Stack } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { HeartIcon } from '@heroicons/react/24/solid'
 
+import{ChatBubbleBottomCenterTextIcon,ShareIcon,BookmarkIcon,HeartIcon} from '@heroicons/react/24/outline'
 
 function BlogPlatePublic(props) {
+  let [filledHeart,setFilledHeart]=useState("none")
+  let [filledChat,setFilledChat]=useState("none")
+  let [filledShare,setFilledShare]=useState("none")
+  let [filledBookmark,setFilledBookmark]=useState("none")
   const blogPost = props.blogPost;
   // const likes = blogPost.likes.length;
   // const dateString = new Date(blogPost.Date);
@@ -99,10 +103,10 @@ function BlogPlatePublic(props) {
         </div>
         <div className="container p-0">
           <div className="flex  justify-between">
-          <HeartIcon className="size-5 m-0 p-0" />
-          <div  className=" p-2 "><i className="bi bi-share"></i></div>
-          <div  className=" p-2 "><i className="bi bi-share"></i></div>
-          <div  className=" p-2 "><i className="bi bi-chat-left-dots"></i></div>
+          <HeartIcon className="size-5 m-1 p-0" style={{fill:filledHeart}} onClick={(e)=>setFilledHeart("black")}/>
+          <ChatBubbleBottomCenterTextIcon className="size-5 m-1 p-0 hover:fill-current" style={{fill:filledChat}} onClick={(e)=>setFilledChat("black")} />
+          <ShareIcon className="size-5 m-1 p-0 hover:fill-current" style={{fill:filledShare}} onClick={(e)=>setFilledShare("black")} />
+          <BookmarkIcon className="size-5 m-1 p-0 hover:fill-current" style={{fill:filledBookmark}} onClick={(e)=>setFilledBookmark("black")} />
         </div>
         </div>
         
