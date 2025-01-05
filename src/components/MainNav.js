@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext } from 'react';
+import { AuthContext } from './AuthContext';
 import { Link } from "react-router-dom";
-import { authUser } from "../App";
+// import { authUser } from "../App";
 import {
   Disclosure,
   DisclosureButton,
@@ -13,23 +14,24 @@ import {
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 function MainNav() {
-  const authValue = useContext(authUser);
+  const {signout,isAuthenticated,username} = useContext(AuthContext);
   
   //navigation links
   const navigation = [
-    { name: "Home", href: "Home", current: false },
-    { name: "Dashboard", href: `/main/${authValue}`, current: true },
+    { name: "Home", href: "/Home", current: false },
+    { name: "Dashboard", href: `/main/${username}`, current: true },
     { name: "Projects", href: "#", current: false },
     { name: "Calendar", href: "#", current: false },
   ];
 
   function handleLogout(e) {
     localStorage.setItem("userName", null);
-    authValue.signout();
+    signout();
+    
     console.log("signed out");
   }
 
-  return authValue.isAuthenticated ? (
+  return isAuthenticated ? (
     <Disclosure as="nav" className="bg-dark">
       <div className="mx-auto w-full px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
@@ -164,7 +166,7 @@ function MainNav() {
         >
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link" to="/HomeMain">
+              <Link className="nav-link" to="/Home">
                 <i className="bi bi-house px-1"></i>Home
               </Link>
             </li>

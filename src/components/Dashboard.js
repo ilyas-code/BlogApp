@@ -7,8 +7,8 @@ import React, {
   } from "react";
   // import BlogPlateUser from "./BlogPlateUser";
   // import NavBar from "./NavBar";
-
-  import { authUser } from "../App";
+  import { AuthContext } from './AuthContext';
+  // import { authUser } from "../App";
   // import { useParams } from "react-router-dom";
   import { Navigate } from "react-router-dom";
   //React bootstrap
@@ -17,9 +17,9 @@ import React, {
   
   function Dashboard() {
     // const { username1 } = useParams();
-    const authValue = useContext(authUser);
+    // const authValue = useContext(authUser);
     const editorCore = useRef(null);
-    
+    const { isAuthenticated } = useContext(AuthContext);
     // const [blogPost, setBlogPost] = useState({
   
     //   likes: ["ilyas"],
@@ -239,7 +239,7 @@ import React, {
     //   );
     // }
   
-    return authValue.isAuthenticated ? (
+    return isAuthenticated ? (
       <>
     
         <div style={{width:"100%",padding:"30px"}}></div>

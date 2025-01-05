@@ -1,16 +1,18 @@
-import React, { useContext, useState } from "react";
+import React, { useState, useContext } from 'react';
+import { AuthContext } from './AuthContext';
 // import { useHistory } from "react-router-dom";
-import { authUser } from "../App";
+// import { authUser } from "../App";
 import { useNavigate, Link } from "react-router-dom";
 import { Form, Button, Card, FloatingLabel, Alert } from "react-bootstrap";
 // import NavBarHome from "./NavBar-Home";
 
 function Login() {
-  const authValue = useContext(authUser);
+  // const authValue = useContext(authUser);
   let navigate = useNavigate();
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
   const [show, setShow] = useState({ state: false, message: "" });
+  const {signin} = useContext(AuthContext);
   //function for setting password and user
   function changeHandler(e) {
     const type = e.target.type;
@@ -51,7 +53,7 @@ function Login() {
       const result = await response.text();
       if (result === "authorized") {
         localStorage.setItem("userName", username);
-        authValue.signin();
+        signin(username);
 
         navigate(`/main/${username}`);
        

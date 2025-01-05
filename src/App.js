@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import Main from "./components/Main";
+// import Main from "./components/Main";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
@@ -10,10 +10,11 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 import BlogPage from "./components/BlogPage";
 import BlogPlate2 from "./components/BlogPlate2";
-
+import { AuthProvider } from "./components/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 const authvalue = {
   username: sessionStorage.getItem("userName"),
-  isAuthenticated: sessionStorage.getItem("isAuthenticated")||false,
+  isAuthenticated: sessionStorage.getItem("isAuthenticated") || false,
   // isAuthenticated: true,
 
   signin() {
@@ -31,26 +32,22 @@ export const authUser = React.createContext();
 
 function App() {
   return (
-    <div className="App">
-      <authUser.Provider value={authvalue}>
+    <AuthProvider>
+      <div className="App">
         <Router>
           <Routes>
             <Route path="/" element={<Home />}>
               <Route path="/Home" element={<BlogPlate2 />} />
               <Route path="/BlogPage/:uid" element={<BlogPage />} />
-              
+              <Route path="/main/:username1" element={<ProtectedRoute element={Dashboard}/>} />
+              <Route path="/HomeMain" element={<BlogPlate2 />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
             </Route>
-            <Route path="/" element={<Main />}>
-            <Route path="/main/:username1" element={<Dashboard/>} />
-            <Route path="/HomeMain" element={<BlogPlate2 />}/>
-            </Route>
-           
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
           </Routes>
         </Router>
-      </authUser.Provider>
-    </div>
+      </div>
+    </AuthProvider>
   );
 }
 
