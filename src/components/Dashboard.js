@@ -1,16 +1,19 @@
 import React, {
     useContext,
+  
     // useState,
     // useEffect,
     useRef,
     useCallback,
   } from "react";
+  import { Navigate } from 'react-router-dom';
+  
   // import BlogPlateUser from "./BlogPlateUser";
   // import NavBar from "./NavBar";
-  import { AuthContext } from './AuthContext';
-  // import { authUser } from "../App";
+ 
+  import { AuthContext } from "./AuthContext";
   // import { useParams } from "react-router-dom";
-  import { Navigate } from "react-router-dom";
+  // import { Navigate } from "react-router-dom";
   //React bootstrap
   import { Card, Button, ButtonGroup } from "react-bootstrap";
   import EditorPage from "./EditorPage";
@@ -19,7 +22,10 @@ import React, {
     // const { username1 } = useParams();
     // const authValue = useContext(authUser);
     const editorCore = useRef(null);
-    const { isAuthenticated } = useContext(AuthContext);
+    const {isAuthenticated} = useContext(AuthContext);
+    
+   console.log("from dashboard",isAuthenticated);
+   
     // const [blogPost, setBlogPost] = useState({
   
     //   likes: ["ilyas"],
@@ -307,9 +313,7 @@ import React, {
               </Row>
               </div> */}
       </>
-    ) : (
-      <Navigate to="/Home" replace={true} />
-    );
+    ) :(<Navigate to="/login"/>);
   }
   
   export default Dashboard;

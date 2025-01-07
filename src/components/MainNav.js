@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
-import { AuthContext } from './AuthContext';
+import React, { useContext, useState } from "react";
+import { AuthContext } from "./AuthContext";
 import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 // import { authUser } from "../App";
 import {
   Disclosure,
@@ -11,24 +12,63 @@ import {
   MenuItem,
   MenuItems,
 } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  BellIcon,
+  XMarkIcon,
+  MagnifyingGlassIcon,
+} from "@heroicons/react/24/outline";
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 
 function MainNav() {
-  const {signout,isAuthenticated,username} = useContext(AuthContext);
-  
+  const { signout, isAuthenticated, username } = useContext(AuthContext);
+  console.log("from MainNav", isAuthenticated,"",username);
   //navigation links
   const navigation = [
     { name: "Home", href: "/Home", current: false },
-    { name: "Dashboard", href: `/main/${username}`, current: true },
+    { name: "Dashboard", href: `/main/${username}`, current: false },
     { name: "Projects", href: "#", current: false },
     { name: "Calendar", href: "#", current: false },
   ];
 
-  function handleLogout(e) {
-    localStorage.setItem("userName", null);
-    signout();
+  // setting  active state of navigation for current page update
+  const [nav, setNav] = useState(navigation);
+  // search bar functionality
+  const [query, setQuery] = useState("");
+
+  const handleInputChange = (e) => {
+    setQuery(e.target.value);
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    // onSearch(query);
+    console.log("searched for", query);
+  };
+
+  function handleLogout(event) {
+    event.preventDefault();
     
+    signout();
+
     console.log("signed out");
+  }
+
+  function pageListener(event) {
+    
+    const navUpdate = nav.map((item) => {
+      if (item.name === event.target.name) {
+        item.current = true;
+      } else {
+        item.current = false;
+      }
+      return item;
+    });
+
+    setNav(navUpdate);
   }
 
   return isAuthenticated ? (
@@ -56,19 +96,39 @@ function MainNav() {
             </div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
-                {navigation.map((item) => (
-                  <Link
+                {nav.map((item) => (
+                  <NavLink
+                    name={item.name}
                     key={item.name}
                     to={item.href}
+                    onClick={pageListener}
                     aria-current={item.current ? "page" : undefined}
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white hover:no-underline rounded-md px-3 py-2 text-sm font-medium no-underline"
+                    className={classNames(
+                      item.current
+                        ? "bg-gray-600 text-white no-underline hover:no-underline"
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white hover:no-underline",
+                      "rounded-md px-3 py-2 text-sm font-medium no-underline"
+                    )}
                   >
                     {item.name}
-                  </Link>
+                  </NavLink>
                 ))}
               </div>
             </div>
           </div>
+          {/* search bar */}
+          <form onSubmit={handleSearch} className="flex items-center">
+            <input
+              type="text"
+              value={query}
+              onChange={handleInputChange}
+              className="w-full relative text-white  px-4 py-2  border-gray-300 focus:bg-slate-400 bg-transparent focus:outline-none focus:border-b-2 focus:border-slate-400 "
+              placeholder="Search..."
+            />
+            <button type="submit" className="absolute">
+              <MagnifyingGlassIcon className=" size-6 bg-slate inline-block stroke-white" />
+            </button>
+          </form>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <button
               type="button"
@@ -99,7 +159,7 @@ function MainNav() {
                 <MenuItem>
                   <Link
                     to="#"
-                    className="block px-4 py-2 text-sm text-gray-700  data-[focus]:bg-gray-100 data-[focus]:outline-none no-underline"
+                    className="block px-4 py-2 text-sm text-gray-700  data-[focus]:bg-gray-100 data-[focus]:outline-none no-underline hover:no-underline"
                   >
                     Your Profile
                   </Link>
@@ -107,7 +167,7 @@ function MainNav() {
                 <MenuItem>
                   <Link
                     to="#"
-                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none no-underline"
+                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none no-underline hover:no-underline"
                   >
                     Settings
                   </Link>
@@ -115,7 +175,7 @@ function MainNav() {
                 <MenuItem>
                   <Link
                     to="Home"
-                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none no-underline"
+                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none no-underline hover:no-underline"
                     onClick={handleLogout}
                   >
                     Sign out

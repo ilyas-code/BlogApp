@@ -52,8 +52,10 @@ function Login() {
       );
       const result = await response.text();
       if (result === "authorized") {
-        localStorage.setItem("userName", username);
+        
+       
         signin(username);
+        console.log(username)
 
         navigate(`/main/${username}`);
        

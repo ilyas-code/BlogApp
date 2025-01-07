@@ -20,12 +20,12 @@ function NavBar() {
   
     function handleLogout(e) {
         e.preventDefault();
-        sessionStorage.setItem("userName", null);
-        sessionStorage.setItem("isAuthenticated", false);
-         authValue.signout();
-        console.log("signed out");
-        console.log(authValue);
-            navigate("/login",{replace:true});
+        // sessionStorage.setItem("userName", null);
+        // sessionStorage.setItem("isAuthenticated", false);
+        //  authValue.signout();
+        // console.log("signed out");
+        // console.log(authValue);
+        //     navigate("/login",{replace:true});
         
      
         
