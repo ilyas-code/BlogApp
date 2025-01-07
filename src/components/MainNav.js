@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState,useEffect } from "react";
 import { AuthContext } from "./AuthContext";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 // import { authUser } from "../App";
 import {
@@ -25,7 +25,7 @@ function classNames(...classes) {
 
 function MainNav() {
   const { signout, isAuthenticated, username } = useContext(AuthContext);
-  console.log("from MainNav", isAuthenticated,"",username);
+ 
   //navigation links
   const navigation = [
     { name: "Home", href: "/Home", current: false },
@@ -39,6 +39,12 @@ function MainNav() {
   // search bar functionality
   const [query, setQuery] = useState("");
 
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(`/main/${username}`);}
+  }, [isAuthenticated]);
+
   const handleInputChange = (e) => {
     setQuery(e.target.value);
   };
@@ -51,9 +57,9 @@ function MainNav() {
 
   function handleLogout(event) {
     event.preventDefault();
-    
+    localStorage.setItem("userName", null);
     signout();
-
+    navigate("/home", { replace: true });
     console.log("signed out");
   }
 
@@ -109,6 +115,7 @@ function MainNav() {
                         : "text-gray-300 hover:bg-gray-700 hover:text-white hover:no-underline",
                       "rounded-md px-3 py-2 text-sm font-medium no-underline"
                     )}
+
                   >
                     {item.name}
                   </NavLink>

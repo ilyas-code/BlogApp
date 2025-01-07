@@ -64,7 +64,7 @@ function Login() {
       }
     } catch (error) {
       // console.log(error);
-      // alert("server - error")
+      alert(error)
       setShow({ state: true, message: "server error" });
     }
   }

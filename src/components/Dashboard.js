@@ -24,7 +24,7 @@ import React, {
     const editorCore = useRef(null);
     const {isAuthenticated} = useContext(AuthContext);
     
-   console.log("from dashboard",isAuthenticated);
+
    
     // const [blogPost, setBlogPost] = useState({
   
