@@ -64,14 +64,14 @@ function Login() {
       }
     } catch (error) {
       // console.log(error);
-      alert(error)
+     
       setShow({ state: true, message: "server error" });
     }
   }
 
   const alertEle = (
-    <Alert show={show.state} variant="danger" className="w-25 mx-auto">
-      {" "}
+    <Alert show={show.state} variant="danger" className="w-full top-20 m-0 p-1  absolute">
+      
       {show.message}
     </Alert>
   );

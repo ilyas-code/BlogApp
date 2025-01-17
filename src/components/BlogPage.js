@@ -42,6 +42,8 @@ function BlogPage() {
 
   return (
     <React.Fragment>
+   
+      
      
       <Card className="container w-50" style={{marginTop:"100px"}}>
         {/* <Card.Text>{apiData.content[1]}</Card.Text> */}
@@ -52,6 +54,7 @@ function BlogPage() {
         
         {console.log(apiData)}
       </Card>
+  
     </React.Fragment>
   );
 }

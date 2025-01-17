@@ -1,6 +1,6 @@
-import React, { useContext, useState,useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "./AuthContext";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 // import { authUser } from "../App";
 import {
@@ -19,30 +19,25 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
-
 function MainNav() {
   const { signout, isAuthenticated, username } = useContext(AuthContext);
- 
+
   //navigation links
   const navigation = [
     { name: "Home", href: "/Home", current: false },
     { name: "Dashboard", href: `/main/${username}`, current: false },
-    { name: "Projects", href: "#", current: false },
-    { name: "Calendar", href: "#", current: false },
   ];
 
   // setting  active state of navigation for current page update
-  const [nav, setNav] = useState(navigation);
+
   // search bar functionality
   const [query, setQuery] = useState("");
 
   const navigate = useNavigate();
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(`/main/${username}`);}
+      navigate(`/main/${username}`);
+    }
   }, [isAuthenticated]);
 
   const handleInputChange = (e) => {
@@ -61,20 +56,6 @@ function MainNav() {
     signout();
     navigate("/home", { replace: true });
     console.log("signed out");
-  }
-
-  function pageListener(event) {
-    
-    const navUpdate = nav.map((item) => {
-      if (item.name === event.target.name) {
-        item.current = true;
-      } else {
-        item.current = false;
-      }
-      return item;
-    });
-
-    setNav(navUpdate);
   }
 
   return isAuthenticated ? (
@@ -102,20 +83,19 @@ function MainNav() {
             </div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
-                {nav.map((item) => (
+                {navigation.map((item) => (
                   <NavLink
-                    name={item.name}
                     key={item.name}
                     to={item.href}
-                    onClick={pageListener}
                     aria-current={item.current ? "page" : undefined}
-                    className={classNames(
-                      item.current
-                        ? "bg-gray-600 text-white no-underline hover:no-underline"
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white hover:no-underline",
-                      "rounded-md px-3 py-2 text-sm font-medium no-underline"
-                    )}
-
+                    className={({ isActive }) =>
+                      [
+                        isActive
+                          ? "bg-gray-600 text-white no-underline hover:no-underline"
+                          : "text-gray-300 hover:bg-gray-700 hover:text-white hover:no-underline",
+                        " rounded-md px-3 py-2 text-sm font-medium no-underline",
+                      ].join("")
+                    }
                   >
                     {item.name}
                   </NavLink>

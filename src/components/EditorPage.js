@@ -1,54 +1,37 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 
-import { createReactEditorJS } from "react-editor-js";
 
+import EditorJS from "@editorjs/editorjs";
 import { EDITOR_JS_TOOLS } from "./constants";
 
-const ReactEditorJS = createReactEditorJS();
 
-const data = {
-  time: 1635603431943,
-  blocks: [
-    {
-      id: "sheNwCUP5A",
-      type: "header",
-      data: {
-        text: "Editor.js",
-        level: 2,
+const EditorPage = ({ handleInitialize }) => {
+  const editorInstance = useRef(null);
+
+  useEffect(() => {
+    editorInstance.current = new EditorJS({
+      holder: "editorjs",
+      onChange: () => console.log("Something is changing!!"),
+
+      onReady: () => {
+        handleInitialize(editorInstance.current);
       },
-    },
-    {
-      id: "12iM3lqzcm",
-      type: "paragraph",
-      data: {
-        text:
-          "Hey. Meet the new Editor. On this page you can see it in action — try to edit this text. Use + button to add text block with different options and edit by highlighting the text.",
-      },
-    },
-    {
-      id: "FF1iyF3VwN",
-      type: "image",
-      data: {
-        file: {
-          url: "https://codex.so/public/app/img/external/codex2x.png"
-        },
-        caption: "",
-        withBorder: false,
-        stretched: false,
-        withBackground: false
+
+      data: JSON.parse(localStorage.getItem("editorContent")),
+
+      placeholder: "Let's write an awesome story!",
+      // Add other Editor.js configuration options here
+      tools: EDITOR_JS_TOOLS,
+    });
+
+    return () => {
+      if (editorInstance.current) {
+        editorInstance.current.destroy();
       }
-    }
-  ],
+    };
+  }, [handleInitialize]);
+
+  return <div id="editorjs"></div>;
 };
-
-
-
-function EditorPage(props) {
-  
-  return(
-  <ReactEditorJS tools={EDITOR_JS_TOOLS} autofocus={true} defaultValue={data} onInitialize={ props.handleInitialize}/>
-  ) ;
- 
-}
 
 export default EditorPage;
