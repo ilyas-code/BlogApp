@@ -1,16 +1,22 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 // import testImg from "./images/testImg.jpg";
 // import { Card, Col, Stack } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
-import{ChatBubbleBottomCenterTextIcon,ShareIcon,BookmarkIcon,HeartIcon} from '@heroicons/react/24/outline'
+import {
+  ChatBubbleBottomCenterTextIcon,
+  ShareIcon,
+  BookmarkIcon,
+  HeartIcon,
+} from "@heroicons/react/24/outline";
 
 function BlogPlatePublic(props) {
-  let [filledHeart,setFilledHeart]=useState("none")
-  let [filledChat,setFilledChat]=useState("none")
-  let [filledShare,setFilledShare]=useState("none")
-  let [filledBookmark,setFilledBookmark]=useState("none")
+  let [filledHeart, setFilledHeart] = useState("none");
+  let [filledChat, setFilledChat] = useState("none");
+  let [filledShare, setFilledShare] = useState("none");
+  let [filledBookmark, setFilledBookmark] = useState("none");
   const blogPost = props.blogPost;
+  console.log(blogPost);
   // const likes = blogPost.likes.length;
   // const dateString = new Date(blogPost.Date);
   // const UserName = props.UserName;
@@ -90,12 +96,11 @@ function BlogPlatePublic(props) {
         </div>
       </div> */}
 
-    
       {/* <div className="card-header">{blogPost.title}</div>
         <div className="card-body">
           <p className="card-text text-truncate">{blogPost.summary}</p>
         </div> */}
-      <div className="relative container rounded-xl shadow-md flex flex-col p-2 antialiase" style={{ width: "18rem" }} >
+      {/* <div className="relative container rounded-xl shadow-md flex flex-col p-2 antialiase" style={{ width: "18rem" }} >
         <img src={blogPost.coverImg} className="p-1 block rounded-xl object-cover h-96 w-96 " alt="..." />
         <div className="container p-0 h-32" onClick={handleCard}>
           <div className=" p-1 text-2xl font-semibold capitalize antialiased" >{blogPost.title}</div>
@@ -110,7 +115,43 @@ function BlogPlatePublic(props) {
         </div>
         </div>
         
-      </div>
+      </div> */}
+      <article class="flex max-w-xl flex-col items-start justify-between shadow-md rounded-xl p-3 antialiased" onClick={handleCard}>
+      <img src={blogPost.coverImg} className="m-0 block rounded-xl object-cover h-96 w-96 " alt="..." />
+        <div className="flex items-center gap-x-8 text-xs mt-3">
+          <time datetime="2020-03-16" className="text-gray-500">
+            Mar 16, 2020
+          </time>
+          <Link className="relative z-10 no-underline rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100 hover:no-underline">
+            Philosophy
+          </Link>
+        </div>
+        <div className="group relative">
+          <h1 className=" text- font-semibold text-gray-900 group-hover:text-gray-600">
+            <span className="absolute inset-0"></span>
+            {blogPost.title}
+          </h1>
+          <p className="mt-1 line-clamp-3 text-sm/6 text-gray-600">
+            {blogPost.summary}
+          </p>
+        </div>
+        <div className="relative flex items-center gap-x-4">
+          <img
+            src={blogPost.coverImg}
+            alt=""
+            class="size-10 rounded-full bg-gray-50"
+          />
+          <div className="text-sm/6">
+            <p className="font-semibold text-gray-900">
+              <Link className="no-underline text-gray-900 hover:text-gray-600 hover:no-underline">  
+                {blogPost.UserName}
+                <p className="p-0 text-gray-600">Writer</p>
+              </Link>
+            </p>
+            
+          </div>
+        </div>
+      </article>
       {/* </div> */}
 
       {/* <div className="card m-3" style={{Width: "100%"}}  onClick={handleCard}>
