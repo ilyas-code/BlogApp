@@ -269,6 +269,7 @@ function Dashboard() {
             {posted ? "Posted" : "Publish"}
           </button>
           <button
+          
             className=" bg-red-600 hover:bg-red-700 text-white font-semibold px-3 py-1 rounded-lg transition-all duration-150"
             variant="dark"
           >
