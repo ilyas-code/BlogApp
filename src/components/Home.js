@@ -117,7 +117,7 @@ function Home() {
       <div style={{height:"100vh"}}>
      
       <MainNav/>
-      <div className="mx-auto w-75 vh-100">
+      <div className="mx-auto lg:w-75 sm:w-100 vh-100">
         <Outlet/>
         
       </div>

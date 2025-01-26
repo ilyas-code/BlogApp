@@ -5,22 +5,19 @@ import BlogPlatePublic from "./BlogPlatePublic";
 function LoadingPage() {
   return (
     <div>
-    
-
-      <div class="card" aria-hidden="true">
-        <div class="card-img-top" alt="..." ></div>
-        <div class="card-body">
-          <h5 class="card-title placeholder-glow">
-            <span class="placeholder col-6"></span>
+      <div className="card" aria-hidden="true">
+        <div className="card-img-top h-96 w-96 bg-slate-300" alt="..."></div>
+        <div className="card-body">
+          <h5 className="card-title placeholder-glow">
+            <span className="placeholder col-6"></span>
           </h5>
-          <p class="card-text placeholder-glow">
-            <span class="placeholder col-7"></span>
-            <span class="placeholder col-4"></span>
-            <span class="placeholder col-4"></span>
-            <span class="placeholder col-6"></span>
-            <span class="placeholder col-8"></span>
+          <p className="card-text placeholder-glow">
+            <span className="placeholder col-7"></span>
+            <span className="placeholder col-4"></span>
+            <span className="placeholder col-4"></span>
+            <span className="placeholder col-6"></span>
+            <span className="placeholder col-8"></span>
           </p>
-          
         </div>
       </div>
     </div>
@@ -76,8 +73,8 @@ function BlogPlate2() {
 
   return (
     <>
-      <div className="w-100 pt-5"></div>
-      <div className="container ">
+      <div className="w-full"></div>
+      <div className="absolute container top-20 float inset-0">
         <div className="d-flex p-3 my-3 align-items-start text-bg-dark rounded shadow-sm">
           {/* <img className="me-3" src="../assets/brand/bootstrap-logo-white.svg" alt="" width="48" height="38"/> */}
           <div className="lh-1">

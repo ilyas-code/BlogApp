@@ -6,6 +6,19 @@ import React, {
   useRef,
   useCallback,
 } from "react";
+import {
+  BriefcaseIcon,
+  CalendarIcon,
+  CheckIcon,
+  ChevronDownIcon,
+  CurrencyDollarIcon,
+  LinkIcon,
+  MapPinIcon,
+  PencilIcon,
+} from '@heroicons/react/20/solid'
+import {Link} from 'react-router-dom'
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+
 import { Navigate } from "react-router-dom";
 
 // import BlogPlateUser from "./BlogPlateUser";
@@ -15,7 +28,7 @@ import { AuthContext } from "./AuthContext";
 // import { useParams } from "react-router-dom";
 // import { Navigate } from "react-router-dom";
 //React bootstrap
-import { Card, Button, ButtonGroup } from "react-bootstrap";
+// import { Card, Button, ButtonGroup } from "react-bootstrap";
 import EditorPage from "./EditorPage";
 
 function Dashboard() {
@@ -259,8 +272,8 @@ function Dashboard() {
   // }
 
   return isAuthenticated ? (
-    <>
-      <div style={{ width: "100%", padding: "30px" }}></div>
+    <div className=" container relative top-20 rounded-md shadow-md outlint divide-y justify-self-center w-100 max-w-75">
+      {/* <div style={{ width: "100%", padding: "30px" }}></div>
       <Card className="text-left m-5 p-0">
         <Card.Header
           className="p-1 text-center text-black-50"
@@ -280,6 +293,7 @@ function Dashboard() {
             >
               Publish
             </Button>
+             
             <Button variant="dark">Cancel</Button>
           </ButtonGroup>
         </Card.Header>
@@ -289,8 +303,70 @@ function Dashboard() {
             savedData={localStorage.getItem("editorContent")}
           />
         </Card.Body>
-      </Card>
+      </Card> */}
+      
+<div className=" lg:flex justify-end ">
+     
+     <div className=" flex m-0 p-2">
+       <span className="hidden sm:block">
+         <button
+           type="button"
+           className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+         >
+           <PencilIcon aria-hidden="true" className="-ml-0.5 mr-1.5 size-5 text-gray-400" />
+           Edit
+         </button>
+       </span>
 
+       <span className="sm:ml-3">
+         <button
+           type="button"
+           className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+           onClick={()=>{handleSave();}}
+         >
+           <CheckIcon aria-hidden="true" className="-ml-0.5 mr-1.5 size-5" />
+           Publish
+         </button>
+       </span>
+
+       {/* Dropdown */}
+       <Menu as="div" className="relative ml-3 sm:hidden">
+         <MenuButton className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400">
+           More
+           <ChevronDownIcon aria-hidden="true" className="-mr-1 ml-1.5 size-4 text-gray-400" />
+         </MenuButton>
+
+         <MenuItems
+           transition
+           className="absolute right-0 z-10 -mr-1 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+         >
+           <MenuItem>
+             <Link
+               to="#"
+               className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+             >
+               Edit
+             </Link>
+           </MenuItem>
+           <MenuItem>
+             <Link
+               to="#"
+               className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+             >
+               View
+             </Link>
+           </MenuItem>
+         </MenuItems>
+       </Menu>
+     </div>
+     
+   </div>
+   <div className="container text-left justify-self-left ">
+     <EditorPage
+           handleInitialize={handleInitialize}
+           savedData={localStorage.getItem("editorContent")}
+         />
+     </div>
       {/* <form>
                   <div
                       className="card mt-5"
@@ -327,7 +403,7 @@ function Dashboard() {
                   {blogArray}
               </Row>
               </div> */}
-    </>
+    </div>
   ) : (
     <Navigate to="/login" />
   );
