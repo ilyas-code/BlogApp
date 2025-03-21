@@ -1,16 +1,11 @@
 import React, { 
-  // useState
+  // useState,
+  // useEffect
  } from "react";
 // import testImg from "./images/testImg.jpg";
 // import { Card, Col, Stack } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
 
-// import {
-//   ChatBubbleBottomCenterTextIcon,
-//   ShareIcon,
-//   BookmarkIcon,
-//   HeartIcon,
-// } from "@heroicons/react/24/outline";
 
 function BlogPlatePublic(props) {
   // let [filledHeart, setFilledHeart] = useState("none");
@@ -18,9 +13,9 @@ function BlogPlatePublic(props) {
   // let [filledShare, setFilledShare] = useState("none");
   // let [filledBookmark, setFilledBookmark] = useState("none");
   const blogPost = props.blogPost;
-  console.log(blogPost);
+ 
   // const likes = blogPost.likes.length;
-  // const dateString = new Date(blogPost.Date);
+  const dateString = new Date(blogPost.Date);
   // const UserName = props.UserName;
 
   const navigate = useNavigate();
@@ -43,6 +38,27 @@ function BlogPlatePublic(props) {
     //     <p className="card-text text-left p-2">{Text}</p>
     // </div>
     <React.Fragment>
+      
+      <div className="rounded-2xl overflow-hidden bg-white shadow-sm border border-gray-100" onClick={handleCard}>
+      <div className="aspect-[4/3] relative">
+        <img src={blogPost.coverImg || "/placeholder.svg"} alt={blogPost.title} className="object-cover w-full h-full" />
+      </div>
+      <div className="p-6">
+        <div className="flex items-center gap-4 mb-4">
+          <span className="text-gray-500 text-sm font-mono">{dateString.toDateString()}</span>
+          <span className="text-blue-600 text-sm font-medium font-mono ">Philosophy</span>
+        </div>
+        <h3 className="text-xl font-bold text-gray-900 mb-3 font-mono">{blogPost.title}</h3>
+        <p className="text-gray-600 mb-6 line-clamp-3 font-sans">{blogPost.summary}</p>
+        <div className="flex items-center gap-3">
+          <img src={blogPost.coverImg|| "/placeholder.svg"} alt={blogPost.UserName} className="w-10 h-10 rounded-full" />
+          <div>
+            <p className="font-medium text-gray-900 p-0 m-0">{blogPost.UserName}</p>
+            <p className="text-gray-500 text-sm p-0 m-0">Writer</p>
+          </div>
+        </div>
+      </div>
+    </div>
       {/* <Col>
         <Card
           style={{ cursor: "pointer", width: "100%", maxHeight: "30rem" }}
@@ -118,11 +134,12 @@ function BlogPlatePublic(props) {
         </div>
         
       </div> */}
-      <article className="flex max-w-xl flex-col items-start justify-start shadow-md rounded-xl p-3 antialiased" onClick={handleCard}>
+   
+      {/* <article className="flex max-w-xl flex-col items-start justify-start shadow-md rounded-xl p-3 antialiased" onClick={handleCard}>
       <img src={blogPost.coverImg} className="m-0 block rounded-xl object-cover h-96 w-96 " alt="..." />
         <div className="flex items-center  gap-x-8 text-xs mt-3">
           <div className="text-gray-500">
-            Mar 16, 2020
+            {dateString.toDateString()}
           </div>
           <Link className="relative z-10 no-underline rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100 hover:no-underline">
             Philosophy
@@ -154,7 +171,7 @@ function BlogPlatePublic(props) {
             <p className="p-0 m-0 text-gray-600">Writer</p>
           </div>
         </div>
-      </article>
+      </article> */}
       {/* </div> */}
 
       {/* <div className="card m-3" style={{Width: "100%"}}  onClick={handleCard}>
@@ -178,6 +195,7 @@ function BlogPlatePublic(props) {
           </div>
         </div>
       </div> */}
+      
     </React.Fragment>
   );
 }

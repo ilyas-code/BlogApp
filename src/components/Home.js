@@ -114,9 +114,10 @@ function Home() {
 //   }
   return (
     <React.Fragment>
-      <div style={{height:"100vh"}}>
+      <div style={{height:"100vh"}} >
      
       <MainNav/>
+     
       <div className="mx-auto lg:w-75 sm:w-100 vh-100">
         <Outlet/>
         

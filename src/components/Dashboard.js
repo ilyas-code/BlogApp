@@ -1,411 +1,316 @@
 import React, {
   useContext,
-
-  // useState,
   useEffect,
   useRef,
   useCallback,
+  useState,
 } from "react";
 import {
-  BriefcaseIcon,
-  CalendarIcon,
   CheckIcon,
   ChevronDownIcon,
-  CurrencyDollarIcon,
-  LinkIcon,
-  MapPinIcon,
   PencilIcon,
-} from '@heroicons/react/20/solid'
-import {Link} from 'react-router-dom'
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-
-import { Navigate } from "react-router-dom";
-
-// import BlogPlateUser from "./BlogPlateUser";
-// import NavBar from "./NavBar";
-
+  Bars3Icon,
+  XMarkIcon,
+} from "@heroicons/react/20/solid";
+import { Link } from "react-router-dom";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { Navigate,useNavigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
-// import { useParams } from "react-router-dom";
-// import { Navigate } from "react-router-dom";
-//React bootstrap
-// import { Card, Button, ButtonGroup } from "react-bootstrap";
 import EditorPage from "./EditorPage";
 
-function Dashboard() {
-  // const { username1 } = useParams();
-  // const authValue = useContext(authUser);
+import { Button } from "@material-tailwind/react";
 
+function Dashboard() {
+  const [apiData, setApiData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [title, setTitle] = useState("title");
   const editorCore = useRef(null);
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, username } = useContext(AuthContext);
+  const navigate = useNavigate();
   const handleInitialize = useCallback((instance) => {
+    if (instance) {
     editorCore.current = instance;
+      const savedContent = localStorage.getItem("editorContent");
+      if (savedContent) {
+        try {
+          const parsedContent = JSON.parse(savedContent);
+          if (typeof instance.render === 'function') {
+            instance.render(parsedContent);
+          }
+        } catch (error) {
+          console.log("Could not load saved content:", error);
+        }
+      }
+    }
   }, []);
 
-  // const [blogPost, setBlogPost] = useState({
-
-  //   likes: ["ilyas"],
-  //   reports: [""],
-  //   UserName: "mohammed",
-  //   Date: date,
-  //   summary: "hi everyone read in",
-  //   title: "good title",
-  //   coverImg:
-  //     "https://images.unsplash.com/photo-1563417994954-2736db3bf2c9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-  //   content: 0,
-  // });
-  // functions for saving the editor data to server
-
-  // Function to save editor content to local storage
-  const saveEditorContent = async () => {
-    if (editorCore.current) {
-      const savedData = await editorCore.current.save();
-      localStorage.setItem("editorContent", JSON.stringify(savedData));
-      console.log("loaded data");
+  const saveEditorContent = useCallback(async () => {
+    try {
+      if (editorCore.current && typeof editorCore.current.save === 'function') {
+        const savedData = await editorCore.current.save();
+        localStorage.setItem("editorContent", JSON.stringify(savedData));
+        console.log("Editor content saved");
+      }
+    } catch (error) {
+      console.log("Could not save editor content:", error);
     }
-  };
+  }, []);
 
-  // Save editor content to local storage on unmount
   useEffect(() => {
     return () => {
-      saveEditorContent();
+      if (editorCore.current && typeof editorCore.current.save === 'function') {
+        saveEditorContent();
+      }
     };
-  }, []);
-  //  function handleSave as evoke from the "PUBLISH" button saves editor js data and post's data to the server
-  const handleSave = useCallback(async () => {
-    const savedData = await editorCore.current.save();
+  }, [saveEditorContent]);
 
-    console.log(savedData);
+  useEffect(() => {
+    let isMounted = true;
+
+    async function fetchData() {
+      try {
+        const response = await fetch(
+          `http://localhost:8000/getBlog/${username}`,
+          {
+            method: "GET",
+            redirect: "follow",
+          }
+        );
+
+        const textResponse = await response.text();
+        
+        try {
+          const result = JSON.parse(textResponse);
+          console.log("Fetched blog data:", result);
+          if (isMounted) {
+            setApiData(Array.isArray(result) ? result : [result]);
+            setLoading(false);
+          }
+        } catch (parseError) {
+          console.error("Server response:", textResponse);
+          throw new Error(textResponse || "Failed to load blogs");
+        }
+      } catch (error) {
+        console.error("Error fetching blogs:", error.message);
+        if (isMounted) {
+          setError(error);
+          setLoading(false);
+        }
+      }
+    }
+
+    if (username) {
+      fetchData();
+    } else {
+      setLoading(false);
+      setError(new Error("No username provided"));
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [username]);
+
+  function handleTitle(e) {
+    e.preventDefault();
+    setTitle(e.target.value);
+  }
+
+  const handleSave = useCallback(async () => {
+    if (!editorCore.current) return;
+
+    try {
+    const savedData = await editorCore.current.save();
     const date = new Date();
-    // const data = { userName: username1, BlogText: savedData };
+
     const data = {
       likes: [""],
       reports: [""],
-      UserName: "mohammed",
+        UserName: username,
       Date: date,
       summary: "hi everyone read in",
-      title: "good title",
+      title: title,
       coverImg:
         "https://images.unsplash.com/photo-1563417994954-2736db3bf2c9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
       content: savedData,
     };
-    // data.content = savedData;
-    // setBlogPost((d)=>{ d = data; return d;});
-    // console.log(data)
 
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    var raw = JSON.stringify(data);
-
-    var requestOptions = {
+      const response = await fetch("http://localhost:8000/postBlog", {
       method: "POST",
-      headers: myHeaders,
-      body: raw,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       redirect: "follow",
-    };
-    try {
-      const response = await fetch(
-        "http://localhost:8000/postBlog",
-        requestOptions
-      );
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to post blog");
+      }
+
       const result = await response.text();
       console.log("from submitHandle", result);
       alert("posted");
+
+      const refreshResponse = await fetch(
+        `http://localhost:8000/getBlog/${username}`,
+        {
+          method: "GET",
+          redirect: "follow",
+        }
+      );
+      if (!refreshResponse.ok) {
+        throw new Error("Failed to refresh blog list");
+      }
+      const refreshedData = await refreshResponse.json();
+      setApiData(Array.isArray(refreshedData) ? refreshedData : [refreshedData]);
+      
+      setTitle("title");
+      
     } catch (error) {
-      console.log("error occured", error);
+      console.log("error occurred", error);
       alert("server error");
     }
-  }, []);
+  }, [title, username]);
 
-  // Setting Blog data for posting to server
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
+  function handleBlogClick(blogId) {
+    navigate(`/${username}/${blogId}`);
+  }
 
-  // Setting the Api data fetchecd from the server
-  // const [apiData, setApiData] = useState(null);
+  return (
+    <div className="flex flex-row relative">
+      <button
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        className="fixed top-1/2 -translate-y-1/2 left-0 z-50 p-2 rounded-r-md bg-gray-900 text-white hover:bg-gray-800"
+      >
+        {isSidebarOpen ? (
+          <XMarkIcon className="h-6 w-6" />
+        ) : (
+          <Bars3Icon className="h-6 w-6" />
+        )}
+      </button>
 
-  // // Refreshing the component after calling Blog data from the Api
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     var requestOptions = {
-  //       method: "GET",
-  //       redirect: "follow",
-  //     };
-  //     // fetching data of the user modammed
-  //     try {
-  //       const response = await fetch(
-  //         `http://localhost:8000/getBlog/${username1}`,
-  //         requestOptions
-  //       );
-  //       const result = await response.json();
-  //       setApiData(result);
-  //       // console.log(result);
-  //     } catch (error) {
-  //       console.log(error);
-  //       // Setting some initial value to prevent forever loading
-  //       setApiData({
-  //         _id: "",
-  //         userName: "A",
-  //         BlogText: [
-  //           { id: 0, Text: "Connection Timed out please load again ", date: 0 },
-  //         ],
-  //       });
-  //     }
-  //   }
-  //   fetchData();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
-  // Function for fetching the blog data of the user from the server by GET request
-  // async function GetData() {
-  //   var requestOptions = {
-  //     method: "GET",
-  //     redirect: "follow",
-  //   };
-  //   // fetching data of the user "mohammed"
-  //   try {
-  //     const response = await fetch(
-  //       `http://localhost:8000/getBlog/${username1}`,
-  //       requestOptions
-  //     );
-  //     const result = await response.json();
-  //     setApiData(result);
-  //     // console.log(result);
-  //   } catch (error) {
-  //     console.log(error);
-  //     // Setting some initial value to prevent forever loading
-  //     setApiData({
-  //       _id: "",
-  //       userName: "",
-  //       BlogText: [
-  //         { id: 0, Text: "Connection Timed out please load again ", date: 0 },
-  //       ],
-  //     });
-  //   }
-  // }
-
-  //function for setting the blog text in blog hook
-  // function ChangeHandler(e) {
-  //   const value = e.target.value;
-  //   setBlogPost({
-  //     userName: username1,
-  //     BlogText: value,
-  //   });
-  //   // console.log(blogPost);
-  // }
-
-  // function for submitting the data to the database
-  // async function SubmitHandle(e) {
-  //   var myHeaders = new Headers();
-  //   myHeaders.append("Content-Type", "application/json");
-
-  //   var raw = JSON.stringify(blogPost);
-
-  //   var requestOptions = {
-  //     method: "POST",
-  //     headers: myHeaders,
-  //     body: raw,
-  //     redirect: "follow",
-  //   };
-  //   try {
-  //     const response = await fetch(
-  //       "http://localhost:8000/postBlog",
-  //       requestOptions
-  //     );
-  //     const result = await response.text();
-  //     console.log("from submitHandle",result);
-  //   } catch (error) {
-  //     console.log("error occured", error);
-  //   }
-  // }
-
-  // function for delete the blog by requesting to the server
-  // async function DeleteHandle(e, deleteQuery) {
-  //   var data = JSON.stringify(deleteQuery);
-
-  //   var myHeaders = new Headers();
-  //   myHeaders.append("Content-Type", "application/json");
-
-  //   var requestOptions = {
-  //     method: "DELETE",
-  //     headers: myHeaders,
-  //     body: data,
-  //     redirect: "follow",
-  //   };
-  //   try {
-  //     const response = await fetch(
-  //       "http://localhost:8000/deleteBlog",
-  //       requestOptions
-  //     );
-  //     const result = await response.text();
-  //     console.log(result);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-
-  //   GetData();
-  // }
-
-  // Sorting the data fetched from the server for maping on the component
-
-  // Mapping the fetched data to the resuable component
-  // if (apiData !== null) {
-  //   const blogText = apiData.sort(function(a, b) {
-  //     return new Date(b.Date) - new Date(a.Date);
-  //   });
-  //   var blogArray = blogText.map((ele) => {
-  //     return (
-  //       <BlogPlateUser
-  //         key={ele.date}
-  //         date={ele.date}
-  //         Text={ele.Text}
-  //         blogPost={blogPost}
-  //         GetData={GetData}
-  //         DeleteHandle={DeleteHandle}
-  //       />
-  //     );
-  //   });
-  // } else {
-  //   blogArray = (
-  //     <div>
-  //       <div id="spinner" className="spinner-border " role="status"></div>
-  //     </div>
-  //   );
-  // }
-
-  return isAuthenticated ? (
-    <div className=" container relative top-20 rounded-md shadow-md outlint divide-y justify-self-center w-100 max-w-75">
-      {/* <div style={{ width: "100%", padding: "30px" }}></div>
-      <Card className="text-left m-5 p-0">
-        <Card.Header
-          className="p-1 text-center text-black-50"
-          style={{ backgroundColor: "white" }}
-        >
-          <small>powered by editor js</small>
-        </Card.Header>
-        <Card.Header>
-          <ButtonGroup aria-label="Basic example" className="float-end">
-            <Button
-              type="submit"
-              variant="success"
-              onClick={() => {
-                handleSave();
-                // SubmitHandle();
-              }}
-            >
-              Publish
-            </Button>
-             
-            <Button variant="dark">Cancel</Button>
-          </ButtonGroup>
-        </Card.Header>
-        <Card.Body>
-          <EditorPage
-            handleInitialize={handleInitialize}
-            savedData={localStorage.getItem("editorContent")}
-          />
-        </Card.Body>
-      </Card> */}
-      
-<div className=" lg:flex justify-end ">
-     
-     <div className=" flex m-0 p-2">
-       <span className="hidden sm:block">
-         <button
-           type="button"
-           className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-         >
-           <PencilIcon aria-hidden="true" className="-ml-0.5 mr-1.5 size-5 text-gray-400" />
-           Edit
-         </button>
-       </span>
-
-       <span className="sm:ml-3">
-         <button
-           type="button"
-           className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-           onClick={()=>{handleSave();}}
-         >
-           <CheckIcon aria-hidden="true" className="-ml-0.5 mr-1.5 size-5" />
-           Publish
-         </button>
-       </span>
-
-       {/* Dropdown */}
-       <Menu as="div" className="relative ml-3 sm:hidden">
-         <MenuButton className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400">
-           More
-           <ChevronDownIcon aria-hidden="true" className="-mr-1 ml-1.5 size-4 text-gray-400" />
-         </MenuButton>
-
-         <MenuItems
-           transition
-           className="absolute right-0 z-10 -mr-1 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
-         >
-           <MenuItem>
-             <Link
-               to="#"
-               className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
-             >
-               Edit
-             </Link>
-           </MenuItem>
-           <MenuItem>
-             <Link
-               to="#"
-               className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
-             >
-               View
-             </Link>
-           </MenuItem>
-         </MenuItems>
-       </Menu>
-     </div>
-     
-   </div>
-   <div className="container text-left justify-self-left ">
-     <EditorPage
-           handleInitialize={handleInitialize}
-           savedData={localStorage.getItem("editorContent")}
-         />
-     </div>
-      {/* <form>
-                  <div
-                      className="card mt-5"
-                      style={{ maxWidth: "500px", margin: "0 auto" }}
-                  >
-                      <h1 className="card-header">Blog</h1>
-                      <div className="card-body">
-                          <p className="card-text">Share your Thoughts</p>
-                          <textarea
-                              name="blogText"
-                              style={{ resize: "none" }}
-                              className="form-control"
-                              rows="3"
-                              placeholder="Do Something Here..."
-                              onChange={ChangeHandler}
-                          ></textarea>
-  
-                          <button
-                              type="submit"
-                              className="btn btn-primary w-25 mt-3 float-left"
-                              onClick={SubmitHandle}
-                          >
-                              <i id="Post-ico" className="fa fa-paper-plane" aria-hidden="true">
-                                  <p>Post</p>
-                              </i>
-                          </button>
-                      </div>
+      <div
+        className={`${
+          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        } fixed left-0 top-0 z-40 transition-transform duration-300 ease-in-out flex flex-col text-white w-[300px] h-screen bg-gray-900 overflow-y-auto`}
+      >
+        <div className="pt-16 px-2">
+          <h2 className="text-base font-medium mb-3 px-2 text-left text-gray-200">My Blogs</h2>
+          
+          <div className="space-y-1">
+            {loading ? (
+              <div className="text-center py-4 text-gray-400">Loading...</div>
+            ) : error ? (
+              <div className="text-center py-4 text-red-400">
+                {error.message === "user not found" ? (
+                  <div>
+                    <p>Welcome! Start by creating your first blog post.</p>
+                    <p className="text-xs mt-1 text-gray-500">No blogs found for this user yet</p>
                   </div>
-              </form> */}
+                ) : (
+                  error.message
+                )}
+              </div>
+            ) : apiData ? (
+              (Array.isArray(apiData) ? apiData : [apiData]).length > 0 ? (
+                (Array.isArray(apiData) ? apiData : [apiData]).map((blog) => (
+                  <div key={blog._id} className="p-2 hover:bg-gray-800 rounded-md cursor-pointer transition-colors" onClick={()=> handleBlogClick(blog._id)}>
+                    <h3 className="text-sm font-medium truncate text-left text-gray-200">{blog.title || 'Untitled'}</h3>
+                    <p className="text-xs text-gray-400 truncate text-left">
+                      Last edited: {blog.Date ? new Date(blog.Date).toLocaleDateString() : 'Unknown date'}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-4 text-gray-400">No blogs found</div>
+              )
+            ) : (
+              <div className="text-center py-4 text-gray-400">No data available</div>
+            )}
+          </div>
+        </div>
+      </div>
 
-      {/* <div className=" w-75 mx-auto text-left" style={{border:"1px solid #b5b5b5",borderRadius:"5px"}}>
-              <Row xs={1} lg={3} className="g-4">
-                  
-                  {blogArray}
-              </Row>
-              </div> */}
+      <div className={`flex-1 transition-all duration-300 ease-in-out ${isSidebarOpen ? 'ml-[300px]' : 'ml-0'}`}>
+        <div className="container relative top-20 rounded-md shadow-md divide-y justify-self-center w-100 max-w-75">
+          <div className="lg:flex justify-end items-baseline">
+        <input
+          type="text"
+          onChange={handleTitle}
+          className="p-2 px-4 focus:border-none bg-inherit w-full inline-block text-3xl text font-semibold"
+          placeholder="Title"
+        />
+
+            <div className="flex m-0 p-2">
+          <span className="hidden sm:block">
+            <button
+              type="button"
+              className="inline-flex items-center rounded-md bg-gray-900 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-500 "
+            >
+              <PencilIcon
+                className="-ml-0.5 mr-1.5 size-5 text-gray-400"
+              />
+              Edit
+            </button>
+          </span>
+
+          <span className="sm:ml-3">
+            <button
+              type="button"
+              className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  onClick={handleSave}
+            >
+                  <CheckIcon className="-ml-0.5 mr-1.5 size-5" />
+              Publish
+            </button>
+          </span>
+
+          <Menu as="div" className="relative ml-3 sm:hidden">
+            <MenuButton className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400">
+              More
+              <ChevronDownIcon
+                className="-mr-1 ml-1.5 size-4 text-gray-400"
+              />
+            </MenuButton>
+
+            <MenuItems
+              transition
+              className="absolute right-0 z-10 -mr-1 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+            >
+              <MenuItem>
+                <Link
+                  to="#"
+                  className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+                >
+                  Edit
+                </Link>
+              </MenuItem>
+              <MenuItem>
+                <Link
+                  to="#"
+                  className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+                >
+                  View
+                </Link>
+              </MenuItem>
+            </MenuItems>
+          </Menu>
+        </div>
+      </div>
+          <div className="text-left p-0 m-0 w-auto">
+        <EditorPage
+          handleInitialize={handleInitialize}
+        />
+      </div>
+                      </div>
     </div>
-  ) : (
-    <Navigate to="/login" />
+    </div>
   );
 }
 

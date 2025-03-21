@@ -74,21 +74,21 @@ function BlogPlate2() {
   return (
     <>
       <div className="w-full"></div>
-      <div className="absolute container top-20 float inset-0">
-        <div className="d-flex p-3 my-3 align-items-start text-bg-dark rounded shadow-sm">
+      <div className="absolute container top-20 float inset-0 ">
+        <div className="bg-gray-900 d-flex p-3 my-3 align-items-start text-white rounded shadow-sm ">
           {/* <img className="me-3" src="../assets/brand/bootstrap-logo-white.svg" alt="" width="48" height="38"/> */}
           <div className="lh-1">
-            <h1 className="h6 mb-0 text-white lh-1 text-start">BlogBox</h1>
+            <h1 className="h6 mb-0 text-white lh-1 text-start ">BlogBox</h1>
             <small>Since 2020</small>
           </div>
         </div>
-        <div className="my-3 p-3 bg-body rounded shadow-sm text-start divide-y">
+        <div className=" my-3 p-3 bg-body text-white rounded shadow-sm text-start divide-y  ">
           {/* <Row xs={1} sm={1} md={2} lg={4} className="g-4">
       {blogArray}
     </Row> */}
 
           <h6 className="p-0 m-0">Recent updates</h6>
-          <div className="fmx-auto mt-3 grid max-w-2xl grid-cols-1 gap-x-5 gap-y-16 border-t border-gray-200 pt-2 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+          {/* <div className="fmx-auto mt-3 grid max-w-2xl grid-cols-1 gap-x-5 gap-y-16 border-t border-gray-200 pt-2 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
             {loading ? (
               <LoadingPage />
             ) : (
@@ -103,7 +103,29 @@ function BlogPlate2() {
                 );
               })
             )}
-          </div>
+          </div> */}
+          <section className="py-16 px-4 max-w-7xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-gray-900 mb-2">
+                Warm Welcome to BlogBox
+              </h2>
+              <p className="text-lg text-gray-600">
+                Write your compelling stories here...
+              </p>
+            </div>
+            {loading ? (
+              <LoadingPage />
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {apiData.map((post) => (
+                  <BlogPlatePublic key={post._id} 
+                  blogPost={post}
+                  uid={post._id}
+                  UserName={post.UserName} /> 
+                ))}
+                </div>
+            )}
+          </section>
         </div>
       </div>
     </>

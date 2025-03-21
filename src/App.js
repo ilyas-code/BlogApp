@@ -11,8 +11,7 @@ import { Route, Routes } from "react-router-dom";
 import BlogPage from "./components/BlogPage";
 import BlogPlate2 from "./components/BlogPlate2";
 import { AuthProvider } from "./components/AuthContext";
-// import ProtectedRoute from "./components/ProtectedRoute";
-
+import UserSpBlog from "./components/UserSpBlog";
 
 export const authUser = React.createContext();
 
@@ -26,6 +25,7 @@ function App() {
               <Route path="/Home" element={<BlogPlate2 />} />
               <Route path="/BlogPage/:uid" element={<BlogPage />} />
               <Route path="/main/:username1" element={<Dashboard/>} />
+              <Route path="/:username/:uid" element={<UserSpBlog/>} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<SignUp />} />
             </Route>

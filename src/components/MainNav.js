@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "./AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { Input } from "@material-tailwind/react";
 // import { authUser } from "../App";
 import {
   Disclosure,
@@ -20,6 +21,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 function MainNav() {
+
   const { signout, isAuthenticated, username } = useContext(AuthContext);
 
   //navigation links
@@ -40,11 +42,13 @@ function MainNav() {
   const [query, setQuery] = useState("");
 
   const navigate = useNavigate();
+ 
   useEffect(() => {
-// eslint-disable-next-line react-hooks/exhaustive-deps
+
     if (isAuthenticated) {
        navigate(`/main/${username}`);
     }
+     // eslint-disable-next-line
   }, [isAuthenticated]);
 
   const handleInputChange = (e) => {
@@ -67,78 +71,83 @@ function MainNav() {
 
 
   return isAuthenticated ? (
-    <Disclosure as="nav" className="bg-neutral-900 z-2">
-    <div className="mx-auto w-full px-2 sm:px-6 lg:px-8">
-      <div className="relative flex h-16 items-center justify-between">
-        <div className=" left-0 flex items-center sm:hidden">
-          {/* Mobile menu button*/}
-          <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-            <span className="absolute -inset-0.5" />
-            <span className="sr-only">Open main menu</span>
-            <Bars3Icon
-              aria-hidden="true"
-              className="block size-6 group-data-[open]:hidden"
-            />
-            <XMarkIcon
-              aria-hidden="true"
-              className="hidden size-6 group-data-[open]:block"
-            />
-          </DisclosureButton>
-        </div>
-        <div className="flex flex-row items-center justify-center sm:items-stretch sm:justify-start">
-          <div className=" flex shrink-0 items-center ">
-            <div className="min-[320px]:max-lg:hidden text-white font-semibold text-lg " >BlogBox</div>
+    <Disclosure as="nav" className="bg-gradient-to-r from-gray-900 to-gray-800 shadow-md z-20">
+      <div className="mx-auto w-full px-2 sm:px-6 lg:px-8">
+        <div className="relative flex h-16 items-center justify-between">
+          <div className="left-0 flex items-center sm:hidden">
+            {/* Mobile menu button*/}
+            <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-300 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+              <span className="absolute -inset-0.5" />
+              <span className="sr-only">Open main menu</span>
+              <Bars3Icon
+                aria-hidden="true"
+                className="block size-6 group-data-[open]:hidden"
+              />
+              <XMarkIcon
+                aria-hidden="true"
+                className="hidden size-6 group-data-[open]:block"
+              />
+            </DisclosureButton>
           </div>
-          <div className="hidden sm:ml-6 sm:block">
-            <div className="flex space-x-4">
-              {navigation.map((item) => (
-                <NavLink
-                  key={item.name}
-                  to={item.href}
-                  aria-current={item.current ? "page" : undefined}
-                  className={({ isActive }) =>
-                    [
-                      isActive
-                        ? "bg-gray-600 text-white no-underline hover:no-underline"
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white hover:no-underline",
-                      " rounded-md px-3 py-2 text-sm font-medium no-underline",
-                    ].join("")
-                  }
-                >
-                  {item.name}
-                </NavLink>
-              ))}
+          <div className="flex flex-row items-center justify-center sm:items-stretch sm:justify-start">
+            <div className="flex shrink-0 items-center">
+              <div className="text-white font-bold text-xl tracking-tight hover:text-gray-200 transition-colors duration-200">BlogBox</div>
+            </div>
+            <div className="hidden sm:ml-6 sm:block">
+              <div className="flex space-x-4">
+                {navigation.map((item) => (
+                  <NavLink
+                    key={item.name}
+                    to={item.href}
+                    aria-current={item.current ? "page" : undefined}
+                    className={({ isActive }) =>
+                      [
+                        isActive
+                          ? "bg-gray-700 text-white no-underline hover:no-underline"
+                          : "text-gray-300 hover:bg-gray-700 hover:text-white hover:no-underline",
+                        "rounded-md px-3 py-2 text-sm font-medium no-underline transition-colors duration-200",
+                      ].join(" ")
+                    }
+                  >
+                    {item.name}
+                  </NavLink>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-        {/* search bar */}
-        <form onSubmit={handleSearch} className=" relative flex flex-row items-center w-75  lg:mx-5" >
-          <input
-            type="text"
-            value={query}
-            onChange={handleInputChange}
-            className="w-full text-white p-2 px-4 rounded-full focus:border-none bg-neutral-800"
-            placeholder="Search..."
-          />
-          <button type="submit" className="absolute right-5">
-            <MagnifyingGlassIcon className=" size-6 bg-slate inline-block stroke-white" />
-          </button>
-        </form>
-        <div className=" right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-          <button
-            type="button"
-            className="relative rounded-full bg-gray-800 p-1 ml-2 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-          >
-            <span className="absolute -inset-1.5" />
-            <span className="sr-only">View notifications</span>
-            <BellIcon aria-hidden="true" className="size-6" />
-          </button>
+          {/* search bar */}
+          <form onSubmit={handleSearch} className="relative hidden md:flex flex-row items-center w-75 lg:mx-5">
+            <div className="relative w-full">
+              <input
+                type="text"
+                value={query}
+                onChange={handleInputChange}
+                className="w-full text-gray-200 bg-gray-800 border border-gray-600 rounded-lg pl-4 pr-10 py-2 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500"
+                placeholder="Search..."
+              />
+              <button 
+                type="submit" 
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200"
+              >
+                <MagnifyingGlassIcon className="h-5 w-5" />
+              </button>
+            </div>
+          </form>
+          <div className="right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+            <button
+              type="button"
+              className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200"
+            >
+              <span className="absolute -inset-1.5" />
+              <span className="sr-only">View notifications</span>
+              <BellIcon className="size-6" />
+            </button>
 
             {/* Profile dropdown */}
             <Menu as="div" className="relative ml-3">
               <div>
-                <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                  <span className="absolute" />
+                <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200">
+                  <span className="absolute -inset-1.5" />
                   <span className="sr-only">Open user menu</span>
                   <img
                     alt=""
@@ -149,32 +158,44 @@ function MainNav() {
               </div>
               <MenuItems
                 transition
-                className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none"
               >
                 <MenuItem>
-                  <Link
-                    to="#"
-                    className="block px-4 py-2 text-sm text-gray-700  data-[focus]:bg-gray-100 data-[focus]:outline-none no-underline hover:no-underline"
-                  >
-                    Your Profile
-                  </Link>
+                  {({ active }) => (
+                    <Link
+                      to="#"
+                      className={`block px-4 py-2 text-sm ${
+                        active ? 'bg-gray-100' : ''
+                      } text-gray-700 no-underline hover:no-underline`}
+                    >
+                      Your Profile
+                    </Link>
+                  )}
                 </MenuItem>
                 <MenuItem>
-                  <Link
-                    to="#"
-                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none no-underline hover:no-underline"
-                  >
-                    Settings
-                  </Link>
+                  {({ active }) => (
+                    <Link
+                      to="#"
+                      className={`block px-4 py-2 text-sm ${
+                        active ? 'bg-gray-100' : ''
+                      } text-gray-700 no-underline hover:no-underline`}
+                    >
+                      Settings
+                    </Link>
+                  )}
                 </MenuItem>
                 <MenuItem>
-                  <Link
-                    to="Home"
-                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none no-underline hover:no-underline"
-                    onClick={handleLogout}
-                  >
-                    Sign out
-                  </Link>
+                  {({ active }) => (
+                    <Link
+                      to="Home"
+                      className={`block px-4 py-2 text-sm ${
+                        active ? 'bg-gray-100' : ''
+                      } text-gray-700 no-underline hover:no-underline`}
+                      onClick={handleLogout}
+                    >
+                      Sign out
+                    </Link>
+                  )}
                 </MenuItem>
               </MenuItems>
             </Menu>
@@ -188,13 +209,36 @@ function MainNav() {
             <NavLink
               key={item.name}
               to={item.href}
-              aria-current={item.current ? "page" : undefined}
-              className="no-underline text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+              className={({ isActive }) =>
+                [
+                  isActive
+                    ? "bg-gray-700 text-white"
+                    : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                  "block rounded-md px-3 py-2 text-base font-medium no-underline transition-colors duration-200",
+                ].join(" ")
+              }
             >
               {item.name}
             </NavLink>
           ))}
         </div>
+        <form onSubmit={handleSearch} className="px-2 pb-3 pt-2">
+          <div className="relative w-full">
+            <input
+              type="text"
+              value={query}
+              onChange={handleInputChange}
+              className="w-full text-gray-200 bg-gray-800 border border-gray-600 rounded-lg pl-4 pr-10 py-2 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500"
+              placeholder="Search..."
+            />
+            <button 
+              type="submit" 
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200"
+            >
+              <MagnifyingGlassIcon className="h-5 w-5" />
+            </button>
+          </div>
+        </form>
       </DisclosurePanel>
     </Disclosure>
   ) : (
@@ -271,12 +315,12 @@ function MainNav() {
     //   </div>
     // </nav>
 
-    <Disclosure as="nav" transition className="pt-0 mt-0 top-0 bg-neutral-900 fixed w-100 z-20 transition delay-150 duration-300 ease-in-out  ">
+    <Disclosure as="nav" className="bg-gradient-to-r from-gray-900 to-gray-800 shadow-md fixed w-100 z-20 transition delay-150 duration-300 ease-in-out">
       <div className="mx-auto w-full px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className=" left-0 flex items-center sm:hidden">
             {/* Mobile menu button*/}
-            <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+            <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-300 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
               <span className="absolute -inset-0.5" />
               <span className="sr-only">Open main menu</span>
               <Bars3Icon
@@ -316,17 +360,22 @@ function MainNav() {
             </div>
           </div>
           {/* search bar */}
-          <form onSubmit={handleSearch} className=" relative flex flex-row items-center w-75 min-[320px]:max-lg:hidden" >
-            <input
-              type="text"
-              value={query}
-              onChange={handleInputChange}
-              className="w-full text-white p-2 px-4 rounded-full focus:border-none bg-neutral-800"
-              placeholder="Search..."
-            />
-            <button type="submit" className="absolute right-5">
-              <MagnifyingGlassIcon className=" size-6 bg-slate inline-block stroke-white" />
-            </button>
+          <form onSubmit={handleSearch} className="relative hidden md:flex flex-row items-center w-75">
+            <div className="relative w-full">
+              <input
+                type="text"
+                value={query}
+                onChange={handleInputChange}
+                className="w-full text-gray-200 bg-gray-800 border border-gray-600 rounded-lg pl-4 pr-10 py-2 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500"
+                placeholder="Search..."
+              />
+              <button 
+                type="submit" 
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200"
+              >
+                <MagnifyingGlassIcon className="h-5 w-5" />
+              </button>
+            </div>
           </form>
           <div className=" right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <button
@@ -386,7 +435,7 @@ function MainNav() {
         </div>
       </div>
 
-      <DisclosurePanel transition className=" sm:hidden fill-white" >
+      <DisclosurePanel  className=" sm:hidden fill-white" >
         <div className="space-y-1 px-2 pb-3 pt-2">
           {navNormal.map((item) => (
              <NavLink
@@ -400,17 +449,22 @@ function MainNav() {
           ))}
         </div>
         <form onSubmit={handleSearch} className=" space-y-1 px-2 pb-3 pt-2" >
+          <div className="relative w-full">
             <input
               type="text"
               value={query}
               onChange={handleInputChange}
-              className="w-full text-white p-2 px-4 rounded-full focus:border-none bg-neutral-800"
+              className="w-full text-gray-200 bg-gray-800 border border-gray-600 rounded-lg pl-4 pr-10 py-2 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500"
               placeholder="Search..."
             />
-            <button type="submit" className="absolute right-5">
-              <MagnifyingGlassIcon className=" size-6 bg-slate inline-block stroke-white" />
+            <button 
+              type="submit" 
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200"
+            >
+              <MagnifyingGlassIcon className="h-5 w-5" />
             </button>
-          </form>
+          </div>
+        </form>
       </DisclosurePanel>
     </Disclosure>
     
