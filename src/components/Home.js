@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 // import { link } from "react-router-dom";
 
 import MainNav from "./MainNav"
+
 // import BlogPlatePublic from "./BlogPlatePublic";
 
 // import { Row, Spinner } from "react-bootstrap";

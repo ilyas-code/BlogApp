@@ -38,7 +38,7 @@ function BlogPlate2() {
         method: "GET",
         redirect: "follow",
       };
-      // fetching data of the user modammed
+      // fetching data of the all public user 
       try {
         const response = await fetch(
           `http://localhost:8000/getBlogPublic`,

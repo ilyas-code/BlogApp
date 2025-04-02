@@ -31,7 +31,7 @@ const EditorPage = ({ handleInitialize }) => {
     };
   }, [handleInitialize]);
 
-  return <div id="editorjs"></div>;
+  return <div id="editorjs" className="w-full h-full p-0 m-0"></div>;
 };
 
 export default EditorPage;

@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "./AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import { Input } from "@material-tailwind/react";
+
 // import { authUser } from "../App";
 import {
   Disclosure,
@@ -71,9 +71,9 @@ function MainNav() {
 
 
   return isAuthenticated ? (
-    <Disclosure as="nav" className="bg-gradient-to-r from-gray-900 to-gray-800 shadow-md z-20">
+    <Disclosure as="nav" className="bg-gradient-to-r from-zinc-900 to-zinc-800 shadow-md z-20">
       <div className="mx-auto w-full px-2 sm:px-6 lg:px-8">
-        <div className="relative flex h-16 items-center justify-between">
+        <div className="relative flex h-12 items-center justify-between">
           <div className="left-0 flex items-center sm:hidden">
             {/* Mobile menu button*/}
             <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-300 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
@@ -112,22 +112,23 @@ function MainNav() {
                     {item.name}
                   </NavLink>
                 ))}
+                
               </div>
             </div>
           </div>
           {/* search bar */}
-          <form onSubmit={handleSearch} className="relative hidden md:flex flex-row items-center w-75 lg:mx-5">
-            <div className="relative w-full">
+          <form onSubmit={handleSearch} className="relative hidden md:flex flex-row items-center justify-end w-75 lg:mx-5">
+            <div className="relative">
               <input
                 type="text"
                 value={query}
                 onChange={handleInputChange}
-                className="w-full text-gray-200 bg-gray-800 border border-gray-600 rounded-lg pl-4 pr-10 py-2 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500"
+                className="w-80 text-gray-200 bg-zinc-800 border border-gray-600 rounded-lg pl-4 pr-10 py-1 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500"
                 placeholder="Search..."
               />
               <button 
                 type="submit" 
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200"
+                className="absolute right-[10px] top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200"
               >
                 <MagnifyingGlassIcon className="h-5 w-5" />
               </button>
@@ -315,9 +316,9 @@ function MainNav() {
     //   </div>
     // </nav>
 
-    <Disclosure as="nav" className="bg-gradient-to-r from-gray-900 to-gray-800 shadow-md fixed w-100 z-20 transition delay-150 duration-300 ease-in-out">
+    <Disclosure as="nav" className="bg-gradient-to-r from-zinc-900 to-zinc-800 shadow-md fixed w-100 z-20 transition delay-150 duration-300 ease-in-out">
       <div className="mx-auto w-full px-2 sm:px-6 lg:px-8">
-        <div className="relative flex h-16 items-center justify-between">
+        <div className="relative flex h-12 items-center justify-between">
           <div className=" left-0 flex items-center sm:hidden">
             {/* Mobile menu button*/}
             <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-300 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
@@ -337,7 +338,7 @@ function MainNav() {
             <div className=" flex shrink-0 items-center ">
               <div className=" text-white font-semibold text-lg " >BlogBox</div>
             </div>
-            <div className="hidden sm:ml-6 sm:block">
+            <div className="hidden sm:ml-6 sm:block ">
               <div className="flex space-x-4">
                 {navNormal.map((item) => (
                   <NavLink
@@ -349,29 +350,30 @@ function MainNav() {
                         isActive
                           ? "bg-gray-600 text-white no-underline hover:no-underline"
                           : "text-gray-300 hover:bg-gray-700 hover:text-white hover:no-underline",
-                        " rounded-md px-3 py-2 text-sm font-medium no-underline",
+                        " px-3 py-2 rounded-md text-sm font-medium no-underline block",
                       ].join("")
                     }
                   >
                     {item.name}
                   </NavLink>
                 ))}
+                
               </div>
             </div>
           </div>
           {/* search bar */}
-          <form onSubmit={handleSearch} className="relative hidden md:flex flex-row items-center w-75">
-            <div className="relative w-full">
+          <form onSubmit={handleSearch} className="relative hidden md:flex flex-row items-center justify-end w-75">
+            <div className="relative ">
               <input
                 type="text"
                 value={query}
                 onChange={handleInputChange}
-                className="w-full text-gray-200 bg-gray-800 border border-gray-600 rounded-lg pl-4 pr-10 py-2 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500"
+                className="w-80 text-gray-200 bg-zinc-800 border border-gray-600 rounded-lg pl-4 pr-10 py-1 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500"
                 placeholder="Search..."
               />
               <button 
                 type="submit" 
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200"
+                className="absolute right-[10px] top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200"
               >
                 <MagnifyingGlassIcon className="h-5 w-5" />
               </button>

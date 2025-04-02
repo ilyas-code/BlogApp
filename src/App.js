@@ -8,7 +8,7 @@ import Dashboard from "./components/Dashboard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
-import BlogPage from "./components/BlogPage";
+import BlogPage2 from "./components/BlogPage2";
 import BlogPlate2 from "./components/BlogPlate2";
 import { AuthProvider } from "./components/AuthContext";
 import UserSpBlog from "./components/UserSpBlog";
@@ -23,7 +23,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />}>
               <Route path="/Home" element={<BlogPlate2 />} />
-              <Route path="/BlogPage/:uid" element={<BlogPage />} />
+              <Route path="/BlogPage/:uid" element={<BlogPage2/>} />
               <Route path="/main/:username1" element={<Dashboard/>} />
               <Route path="/:username/:uid" element={<UserSpBlog/>} />
               <Route path="/login" element={<Login />} />

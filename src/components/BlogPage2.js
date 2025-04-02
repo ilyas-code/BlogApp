@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useContext } from "react";
 import { Heart ,Share2,Trash,User,Calendar} from "lucide-react";
 import { Parser } from '@alkhipce/editorjs-react';
@@ -8,11 +9,11 @@ import { useParams,
 // import { HeartIcon as HeartOutlineIcon } from "@heroicons/react/24/outline";
 import { AuthContext } from "./AuthContext";
 
-function UserSpBlog() {
+function BlogPage2(props) {
   const params = useParams();
-//   const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { username } = useContext(AuthContext);
-  const [apiData, setApiData] = useState(null);
+  const [apiData, setApiData] = useState({ content: "none" });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [copied, setCopied] = useState(false);
@@ -23,7 +24,7 @@ function UserSpBlog() {
     async function fetchData() {
       try {
         const response = await fetch(
-          `http://localhost:8000/getBlogUserSpecific/${params.uid}`,
+          `http://localhost:8000/getBlogPublicSpecific/${params.uid}`,
           {
             method: "GET",
             redirect: "follow",
@@ -234,4 +235,4 @@ function UserSpBlog() {
   );
 }
 
-export default UserSpBlog;
+export default BlogPage2;
