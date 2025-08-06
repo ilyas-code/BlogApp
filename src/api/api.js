@@ -1,4 +1,4 @@
-const BASE_URL = 'https://8000-idx-blogbackendgit-1746362214736.cluster-zumahodzirciuujpqvsniawo3o.cloudworkstations.dev';
+const BASE_URL = 'http://localhost:8000';
 
 
 export const postBlogPost = async (blogData) => {
@@ -10,6 +10,7 @@ export const postBlogPost = async (blogData) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(blogData),
+
     });
 
     if (!response.ok) {
