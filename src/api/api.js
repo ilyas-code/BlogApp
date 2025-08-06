@@ -1,11 +1,10 @@
-const BASE_URL = 'https://8000-idx-blogbackendgit-1746362214736.cluster-zumahodzirciuujpqvsniawo3o.cloudworkstations.dev';
 
-
+const BASE_URL = "https://4000-idx-blogbackendgit-1746362214736.cluster-zumahodzirciuujpqvsniawo3o.cloudworkstations.dev";
 export const postBlogPost = async (blogData) => {
   try {
     const response = await fetch(`${BASE_URL}/blogs/`, {
       method: 'POST',
-      mode: "cors",
+     
       headers: {
         'Content-Type': 'application/json',
       },
@@ -90,4 +89,7 @@ export const deleteBlogPost = async (blogId) => {
     console.error('Error deleting blog:', error);
     throw error;
   }
+
+
 };
+

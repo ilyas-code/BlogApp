@@ -20,6 +20,7 @@ import EditorPage from "./EditorPage";
 
 
 function Dashboard() {
+  
   const [apiData, setApiData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -71,7 +72,7 @@ function Dashboard() {
     async function fetchData() {
       try {
         const response = await fetch(
-          `http://localhost:8000/getBlog/${username}`,
+          `https://4000-idx-blogbackendgit-1746362214736.cluster-zumahodzirciuujpqvsniawo3o.cloudworkstations.dev/getBlog/${username}`,
           {
             method: "GET",
             redirect: "follow",
@@ -136,7 +137,7 @@ function Dashboard() {
         content: savedData,
       };
 
-      const response = await fetch("http://localhost:8000/postBlog", {
+      const response = await fetch(`https://4000-idx-blogbackendgit-1746362214736.cluster-zumahodzirciuujpqvsniawo3o.cloudworkstations.dev/postBlog`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -154,7 +155,7 @@ function Dashboard() {
       alert("posted");
 
       const refreshResponse = await fetch(
-        `http://localhost:8000/getBlog/${username}`,
+        `https://4000-idx-blogbackendgit-1746362214736.cluster-zumahodzirciuujpqvsniawo3o.cloudworkstations.dev/getBlog/${username}`,
         {
           method: "GET",
           redirect: "follow",

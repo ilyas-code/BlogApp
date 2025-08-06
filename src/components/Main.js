@@ -1,24 +1,15 @@
-import React, {
-  useContext,
-  // useState,
-  // useEffect,
-  // useRef,
-  // useCallback,
-} from "react";
-// import BlogPlateUser from "./BlogPlateUser";
-// import NavBar from "./NavBar";
+import React, { useContext, useCallback } from "react";
 import MainNav from "./MainNav"
 import { authUser } from "../App";
-// import { useParams } from "react-router-dom";
-import { Navigate,Outlet} from "react-router-dom";
-//React bootstrap
-// import { Card, Button, ButtonGroup } from "react-bootstrap";
-// import EditorPage from "./EditorPage";
+import { Navigate, Outlet } from "react-router-dom";
+import { postBlogPost, deleteBlogPost } from "../api/api";
 
 function Main() {
-  // const { username1 } = useParams();
+
   const authValue = useContext(authUser);
-//   const editorCore = useRef(null);
+
+  // const editorCore = useRef(null);
+
 //   const date = new Date();
 //   // const [blogPost, setBlogPost] = useState({
 
@@ -34,12 +25,15 @@ function Main() {
 //   // });
 //   // functions for saving the editor data to server
 //   const handleInitialize = useCallback((instance) => {
-//     editorCore.current = instance;
+//    editorCore.current = instance;
 //   }, []);
   
-// //  function handleSave as evoke from the "PUBLISH" button saves editor js data and post's data to the server 
+
 //   const handleSave = useCallback(async () => {
-//     const savedData = await editorCore.current.save();
+//     // const savedData = await editorCore.current.save();
+//     // The code is commented out because there is no editorCore ref
+      
+//     const savedData = {}; //delete this line when editorCore ref is working.
 //     console.log(savedData);
 //     // const data = { userName: username1, BlogText: savedData };
 //     const data = {
@@ -56,160 +50,29 @@ function Main() {
 //     // data.content = savedData;
 //     // setBlogPost((d)=>{ d = data; return d;});
 //     // console.log(data)
-
-//     var myHeaders = new Headers();
-//     myHeaders.append("Content-Type", "application/json");
-
-//     var raw = JSON.stringify(data);
-
-//     var requestOptions = {
-//       method: "POST",
-//       headers: myHeaders,
-//       body: raw,
-//       redirect: "follow",
-//     };
+    
 //     try {
-//       const response = await fetch(
-//         "http://localhost:8000/postBlog",
-//         requestOptions
-//       );
-//       const result = await response.text();
-//       console.log("from submitHandle",result);
-//       alert("posted")
+//        await postBlogPost(data);
+//        alert("posted");
 //     } catch (error) {
 //       console.log("error occured", error);
-//       alert("server error")
+//       alert("server error");
 //     }
+
     
-//   },[]);
-
-  // Setting Blog data for posting to server
+//   }, []);
   
+    // Function for delete the blog by requesting to the server
+  async function DeleteHandle(e, deleteQuery) {
+    try {
+       await deleteBlogPost(deleteQuery);
+    } catch (error) {
+      console.log(error);
+    }
 
-  // Setting the Api data fetchecd from the server
-  // const [apiData, setApiData] = useState(null);
-
-  // // Refreshing the component after calling Blog data from the Api
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     var requestOptions = {
-  //       method: "GET",
-  //       redirect: "follow",
-  //     };
-  //     // fetching data of the user modammed
-  //     try {
-  //       const response = await fetch(
-  //         `http://localhost:8000/getBlog/${username1}`,
-  //         requestOptions
-  //       );
-  //       const result = await response.json();
-  //       setApiData(result);
-  //       // console.log(result);
-  //     } catch (error) {
-  //       console.log(error);
-  //       // Setting some initial value to prevent forever loading
-  //       setApiData({
-  //         _id: "",
-  //         userName: "A",
-  //         BlogText: [
-  //           { id: 0, Text: "Connection Timed out please load again ", date: 0 },
-  //         ],
-  //       });
-  //     }
-  //   }
-  //   fetchData();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
-  // Function for fetching the blog data of the user from the server by GET request
-  // async function GetData() {
-  //   var requestOptions = {
-  //     method: "GET",
-  //     redirect: "follow",
-  //   };
-  //   // fetching data of the user "mohammed"
-  //   try {
-  //     const response = await fetch(
-  //       `http://localhost:8000/getBlog/${username1}`,
-  //       requestOptions
-  //     );
-  //     const result = await response.json();
-  //     setApiData(result);
-  //     // console.log(result);
-  //   } catch (error) {
-  //     console.log(error);
-  //     // Setting some initial value to prevent forever loading
-  //     setApiData({
-  //       _id: "",
-  //       userName: "",
-  //       BlogText: [
-  //         { id: 0, Text: "Connection Timed out please load again ", date: 0 },
-  //       ],
-  //     });
-  //   }
-  // }
-
-  //function for setting the blog text in blog hook
-  // function ChangeHandler(e) {
-  //   const value = e.target.value;
-  //   setBlogPost({
-  //     userName: username1,
-  //     BlogText: value,
-  //   });
-  //   // console.log(blogPost);
-  // }
-
-  // function for submitting the data to the database
-  // async function SubmitHandle(e) {
-  //   var myHeaders = new Headers();
-  //   myHeaders.append("Content-Type", "application/json");
-
-  //   var raw = JSON.stringify(blogPost);
-
-  //   var requestOptions = {
-  //     method: "POST",
-  //     headers: myHeaders,
-  //     body: raw,
-  //     redirect: "follow",
-  //   };
-  //   try {
-  //     const response = await fetch(
-  //       "http://localhost:8000/postBlog",
-  //       requestOptions
-  //     );
-  //     const result = await response.text();
-  //     console.log("from submitHandle",result);
-  //   } catch (error) {
-  //     console.log("error occured", error);
-  //   }
-  // }
-
-  // function for delete the blog by requesting to the server
-  // async function DeleteHandle(e, deleteQuery) {
-  //   var data = JSON.stringify(deleteQuery);
-
-  //   var myHeaders = new Headers();
-  //   myHeaders.append("Content-Type", "application/json");
-
-  //   var requestOptions = {
-  //     method: "DELETE",
-  //     headers: myHeaders,
-  //     body: data,
-  //     redirect: "follow",
-  //   };
-  //   try {
-  //     const response = await fetch(
-  //       "http://localhost:8000/deleteBlog",
-  //       requestOptions
-  //     );
-  //     const result = await response.text();
-  //     console.log(result);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-
-  //   GetData();
-  // }
+   
+    //   GetData();
+  }
 
   // Sorting the data fetched from the server for maping on the component
 

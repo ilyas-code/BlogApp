@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import BlogPlatePublic from "./BlogPlatePublic";
 // import { Spinner } from "react-bootstrap";
+import { getPublicBlogs } from "../api/api";
 
 function LoadingPage() {
   return (
@@ -30,37 +31,21 @@ function BlogPlate2() {
   const [error, setError] = useState(null);
 
   // Refreshing the component after calling Blog data from the Api
-  useEffect(() => {
-    let isMounted = true; // flag to track if the component is mounted
 
-    async function fetchData() {
-      var requestOptions = {
-        method: "GET",
-        redirect: "follow",
-      };
-      // fetching data of the all public user 
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchData = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:8000/getBlogPublic`,
-          requestOptions
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const result = await response.json();
-        if (isMounted) {
-          setApiData(result);
-          setLoading(false);
-        }
+        const data = await getPublicBlogs();
+        isMounted && setApiData(data) && setLoading(false);
       } catch (error) {
-        if (isMounted) {
-          setError(error);
-          setLoading(false);
-        }
+        isMounted && setError(error) && setLoading(false);
       }
-    }
+    };
 
     fetchData();
+
 
     return () => {
       isMounted = false; // cleanup function to set the flag to false when the component unmounts
@@ -116,12 +101,12 @@ function BlogPlate2() {
             {loading ? (
               <LoadingPage />
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {apiData.map((post) => (
-                  <BlogPlatePublic key={post._id} 
-                  blogPost={post}
-                  uid={post._id}
-                  UserName={post.UserName} /> 
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {apiData.map((post) => (
+                    <BlogPlatePublic key={post._id}
+                      blogPost={post}
+                      uid={post._id}
+                      UserName={post.UserName} />
                 ))}
                 </div>
             )}
