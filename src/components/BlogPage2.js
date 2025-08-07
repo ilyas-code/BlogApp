@@ -13,16 +13,17 @@ function BlogPage2(props) {
   // const navigate = useNavigate();
   const { username } = useContext(AuthContext);
   const [apiData, setApiData] = useState({ content: "none" });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
+        // setLoading(true);
         const data = await getSpecificBlog(params.uid);
         setApiData(data);
+        setLoading(false);
       } catch (err) {
         console.error("Error fetching specific blog:", err);
         setError(err.message);

@@ -29,7 +29,7 @@ function BlogPlate2() {
   const [apiData, setApiData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  console.log('from apiData',apiData)
   // Refreshing the component after calling Blog data from the Api
 
   useEffect(() => {
@@ -38,9 +38,14 @@ function BlogPlate2() {
     const fetchData = async () => {
       try {
         const data = await getPublicBlogs();
-        isMounted && setApiData(data) && setLoading(false);
+        
+        
+        setApiData(data) 
+        setLoading(false);
+        console.log(isMounted && setApiData(data) && setLoading(false));
       } catch (error) {
-        isMounted && setError(error) && setLoading(false);
+         setError(error)
+        setLoading(false);
       }
     };
 

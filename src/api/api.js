@@ -4,7 +4,7 @@ const BASE_URL = 'http://localhost:8000';
 
 export const postBlogPost = async (blogData) => {
   try {
-    const response = await fetch(`${BASE_URL}/blogs/`, {
+    const response = await fetch('http://localhost:8000/blogs/', {
       method: 'POST',
      
       headers: {
@@ -28,7 +28,7 @@ export const postBlogPost = async (blogData) => {
 
 export const getPublicBlogs = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/getBlogPublic`);
+      const response = await fetch('http://localhost:8000/getBlogPublic');
   
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

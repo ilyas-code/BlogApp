@@ -72,7 +72,7 @@ function Dashboard() {
     async function fetchData() {
       try {
         const response = await fetch(
-          `https://4000-idx-blogbackendgit-1746362214736.cluster-zumahodzirciuujpqvsniawo3o.cloudworkstations.dev/getBlog/${username}`,
+          `http://localhost:8000/getBlog/${username}`,
           {
             method: "GET",
             redirect: "follow",
@@ -137,7 +137,7 @@ function Dashboard() {
         content: savedData,
       };
 
-      const response = await fetch(`https://4000-idx-blogbackendgit-1746362214736.cluster-zumahodzirciuujpqvsniawo3o.cloudworkstations.dev/postBlog`, {
+      const response = await fetch(`http://localhost:8000/postBlog`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
