@@ -1,56 +1,37 @@
 
 import React, { useEffect, useState, useContext } from "react";
-import { Heart ,Share2,Trash,User,Calendar} from "lucide-react";
-import { Parser } from '@alkhipce/editorjs-react';
-import { useParams, 
-    // useNavigate 
-} from "react-router-dom";
+import { Heart, Share2, Trash, User, Calendar } from "lucide-react";
+import { Parser } from "@alkhipce/editorjs-react";
+import { useParams } from "react-router-dom";
+import { AuthContext } from "./AuthContext";
+import { getSpecificBlog } from "../api/api";
 // import { HeartIcon, CalendarIcon, UserIcon, ShareIcon } from "@heroicons/react/20/solid";
 // import { HeartIcon as HeartOutlineIcon } from "@heroicons/react/24/outline";
-import { AuthContext } from "./AuthContext";
 
 function BlogPage2(props) {
   const params = useParams();
   // const navigate = useNavigate();
   const { username } = useContext(AuthContext);
   const [apiData, setApiData] = useState({ content: "none" });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    let isMounted = true;
-
-    async function fetchData() {
+    const fetchData = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:8000/getBlogPublicSpecific/${params.uid}`,
-          {
-            method: "GET",
-            redirect: "follow",
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const result = await response.json();
-        if (isMounted) {
-          setApiData(result);
-        console.log(result);
-          setLoading(false);
-        }
-      } catch (error) {
-        if (isMounted) {
-          setError(error);
-          setLoading(false);
-        }
+        setLoading(true);
+        const data = await getSpecificBlog(params.uid);
+        setApiData(data);
+      } catch (err) {
+        console.error("Error fetching specific blog:", err);
+        setError(err.message);
+        setError("Failed to fetch the blog.");
+      } finally {
       }
-    }
+    };
 
     fetchData();
-    return () => {
-      isMounted = false;
-    };
   }, [params.uid]);
 
   const handleShare = async () => {
@@ -62,60 +43,6 @@ function BlogPage2(props) {
       console.error('Failed to copy:', err);
     }
   };
-
-//   const handleDelete = async () => {
-//     if (window.confirm("Are you sure you want to delete this blog post?")) {
-//       try {
-//         const response = await fetch(`http://localhost:8000/deleteBlog/${params.uid}`, {
-//           method: "DELETE",
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//           redirect: "follow",
-//         });
-
-//         if (!response.ok) {
-//           throw new Error("Failed to delete blog");
-//         }
-
-//         alert("Blog deleted successfully!");
-//         navigate("/dashboard");
-//       } catch (error) {
-//         console.error("Error deleting blog:", error);
-//         alert("Failed to delete blog. Please try again.");
-//       }
-//     }
-//   };
-
-//   const handleLike = async () => {
-//     try {
-//       const response = await fetch(`http://localhost:8000/likeBlog/${params.uid}`, {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({ username }),
-//         redirect: "follow",
-//       });
-
-//       if (!response.ok) {
-//         throw new Error("Failed to update like");
-//       }
-
-//       setApiData(prevData => {
-//         const userLiked = prevData.likes.includes(username);
-//         return {
-//           ...prevData,
-//           likes: userLiked
-//             ? prevData.likes.filter(user => user !== username)
-//             : [...prevData.likes, username]
-//         };
-//       });
-//     } catch (error) {
-//       console.error("Error updating like:", error);
-//       alert("Failed to update like. Please try again.");
-//     }
-//   };
 
   if (loading) {
   return (
@@ -141,6 +68,7 @@ function BlogPage2(props) {
     );
   }
 
+
   if (!apiData) {
     return (
       <div className="min-h-screen bg-gray-50 py-16">
@@ -159,7 +87,7 @@ function BlogPage2(props) {
   }) : "Unknown date";
 
   return (
-    <div className="min-h-screen bg-gray-50 py-16 max-sm:text-sm">
+    <div className="min-h-screen bg-gray-50 py-16 max-sm:text-sm ">
       <div className="container mx-auto px-4 max-w-4xl">
         <article className="bg-white rounded-xl border-2 border-gray-500 overflow-hidden">
           {/* Header */}
@@ -167,13 +95,13 @@ function BlogPage2(props) {
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
               {apiData.title || "Untitled"}
             </h1>
-            
+
             <div className="flex items-center justify-between flex-wrap gap-2 max-sm:justify-evenly">
               <div className="flex items-center space-x-4 text-gray-600">
                 <div className="flex items-center">
-                  
-                  <User className="h-5 w-5 mr-2 text-gray-500"/>
-                  <span>{apiData.UserName}</span>
+                  <User className="h-5 w-5 mr-2 text-gray-500" />
+                  <span>{apiData.UserName}</span> 
+
                 </div>
                 <div className="flex items-center">
                   <Calendar className="h-5 w-5 mr-2 text-gray-500" />
@@ -205,7 +133,6 @@ function BlogPage2(props) {
                   onClick={handleShare}
                   className="p-2 rounded-full hover:bg-gray-100 transition-colors group relative"
                 >
-                  
                   <Share2 className="h-6 w-6 text-gray-400 group-hover:text-blue-500" />
                   {copied && (
                     <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-sm text-gray-500">
@@ -217,7 +144,6 @@ function BlogPage2(props) {
                   <button
                     className="p-2 rounded-full hover:bg-gray-100 transition-colors"
                   >
-                    
                     <Trash className="h-6 w-6 text-gray-400 hover:text-red-500" />
                   </button>
                 )}

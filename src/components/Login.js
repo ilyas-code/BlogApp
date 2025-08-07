@@ -1,3 +1,4 @@
+
 import React, { useState, useContext } from 'react';
 import { AuthContext } from './AuthContext';
 // import { useHistory } from "react-router-dom";
@@ -8,6 +9,7 @@ import { useNavigate, Link } from "react-router-dom";
 import STButton from "./CssComponents/STButton";
 function Login() {
   // const authValue = useContext(authUser);
+  const BASE_URL="http://localhost:8000";
   let navigate = useNavigate();
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
@@ -50,7 +52,7 @@ function Login() {
     };
     try {
       const response = await fetch(
-        "http://localhost:8000/authUser/",
+        `${BASE_URL}/authUser`,
         requestOptions
       );
       const result = await response.text();

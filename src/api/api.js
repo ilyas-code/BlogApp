@@ -1,11 +1,12 @@
 const BASE_URL = 'http://localhost:8000';
 
 
+
 export const postBlogPost = async (blogData) => {
   try {
     const response = await fetch(`${BASE_URL}/blogs/`, {
       method: 'POST',
-      mode: "cors",
+     
       headers: {
         'Content-Type': 'application/json',
       },
@@ -91,4 +92,7 @@ export const deleteBlogPost = async (blogId) => {
     console.error('Error deleting blog:', error);
     throw error;
   }
+
+
 };
+
